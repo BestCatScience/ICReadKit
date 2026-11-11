@@ -49,8 +49,15 @@ jobs:
         run: |
           xcodebuild test -quiet -project ICReadKit.xcodeproj -scheme ICReadSample \
             -destination "$SIMULATOR" -derivedDataPath build/DerivedData CODE_SIGNING_ALLOWED=NO
+      - name: Run the doctor on the sample app, as a host app would
+        run: |
+          python3 scripts/icreadkit_doctor.py ios \
+            build/DerivedData/Build/Products/Debug-iphonesimulator/ICReadSample.app \
+            --entitlements App/ICReadSample/ICReadSample.entitlements
       - name: Build the XCFramework
         run: bash scripts/build-xcframework.sh
+      - name: The XCFramework carries its privacy manifest
+        run: test -f build/ICReadKit.xcframework/ios-arm64/ICReadKit.framework/PrivacyInfo.xcprivacy
       - name: Check the public API against the baseline
         run: bash scripts/check-api.sh
 
@@ -112,6 +119,10 @@ jobs:
           export JAVA_HOME="$JAVA_HOME_17_X64"
           ./gradlew --no-daemon :icreadkit:testDebugUnitTest :icreadkit:lintRelease \
             :icreadkit:assembleRelease :sample:assembleRelease
+      - name: Run the doctor on the AAR and the minified sample app
+        run: |
+          python3 scripts/icreadkit_doctor.py android android/icreadkit/build/outputs/aar/icreadkit-release.aar
+          python3 scripts/icreadkit_doctor.py android android/sample/build/outputs/apk/release/sample-release.apk
 
   android-e2e:
     name: Android Compose UI tests and Maestro E2E

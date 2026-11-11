@@ -17,7 +17,12 @@ targets:
     platform: iOS
     deploymentTarget: "16.0"
     sources:
-      - Sources/ICReadKit
+      - path: Sources/ICReadKit
+        excludes:
+          - PrivacyInfo.xcprivacy
+      # Apple expects SDKs to ship a privacy manifest inside the framework.
+      - path: Sources/ICReadKit/PrivacyInfo.xcprivacy
+        buildPhase: resources
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.bestcatscience.icreadkit

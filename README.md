@@ -113,6 +113,27 @@ adapter.enableReaderMode(activity, { tag ->
 | `malformedCertificate` | `MALFORMED_CERTIFICATE` | 読めなかったと伝える |
 | `system(code:)` | ― | Core NFC のコードを記録する |
 
+## 問い合わせを減らす診断ツール
+
+組み込み先から来る問い合わせの多くは、SDK ではなくアプリ側の設定の問題です。`scripts/icreadkit_doctor.py` は、組み込み先の `.app`・`.ipa`・`.apk`・`.aar` を読んで、よくある設定ミスを ID・原因・直し方つきで出します。読むのは設定とバイナリのヘッダーだけで、利用者のデータには触れません。
+
+```bash
+python3 scripts/icreadkit_doctor.py ios path/to/App.app --entitlements path/to/App.entitlements
+python3 scripts/icreadkit_doctor.py android path/to/app.apk
+```
+
+| ID | 見つけるもの |
+|---|---|
+| ICR-IOS-001〜003 | 利用目的の文言、読み取るアプリケーションの指定、最低対応 OS の不足 |
+| ICR-IOS-004、005 | entitlements の TAG の不足、最低対応 OS が iOS 13 以降なのに NDEF がある（ITMS-90778） |
+| ICR-IOS-006 | 同じ識別子のバンドルの重複（ITMS-90685） |
+| ICR-AND-001 | 16 KB ページに揃っていない 64 ビットのネイティブライブラリ |
+| ICR-AND-002〜005 | NFC の権限、minSdk、NFC の必須指定、AAR の keep ルール |
+
+各 ID の説明と、カード側の問題（期限切れ、読めない機種、別のカード、NFC がオフ）への一次回答は [docs/support/troubleshooting.md](docs/support/troubleshooting.md) にあります。CI では、自分たちのサンプルアプリと AAR にも毎回この診断をかけています。
+
+iOS の SDK には、Apple が SDK に求めるプライバシーマニフェスト（`PrivacyInfo.xcprivacy`）を同梱しています。トラッキングなし、収集するデータなし、理由の申告が要る API の使用なしと宣言しています。
+
 ## 計測イベント（離脱率）
 
 両 OS とも、読み取りの各段階（開始、カード検出、終了と所要時間）をイベントで渡します。カードのデータは含まないので、そのまま監視基盤（Datadog など）に送れます。開始したのに読み取りまで行かなかった割合が離脱率で、カード検出の有無で「当てられなかった」と「途中で離れた」を分けられます。サンプルアプリはこの集計を画面に出します。
