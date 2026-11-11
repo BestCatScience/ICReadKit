@@ -17,4 +17,9 @@ tags: [ci]
     text: ".*期限切れ.*"
 - assertNotVisible:
     id: error-message
+# Bring the result into the middle of the screen so both platforms are captured alike.
+- scrollUntilVisible:
+    element:
+      id: result-period
+    centerElement: true
 - takeScreenshot: expired-card

@@ -19,6 +19,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -34,6 +35,21 @@ import com.bestcatscience.icreadkit.DemoCard
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
+/**
+ * The same palette as the iOS sample: a grouped grey ground, white cards and the system blue,
+ * so the two apps read as one product rather than a stock Material template.
+ */
+private val SampleColors = lightColorScheme(
+    primary = Color(0xFF0A66D6),
+    onPrimary = Color.White,
+    background = Color(0xFFF2F2F7),
+    surface = Color(0xFFF2F2F7),
+    surfaceContainerHighest = Color.White,
+    surfaceContainerHigh = Color.White,
+    onSurface = Color(0xFF1C1C1E),
+    onSurfaceVariant = Color(0xFF6C6C70),
+)
+
 private val day = DateTimeFormatter.ofPattern("yyyy年M月d日").withZone(ZoneId.systemDefault())
 
 /**
@@ -43,7 +59,7 @@ private val day = DateTimeFormatter.ofPattern("yyyy年M月d日").withZone(ZoneId
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ReaderScreen(state: ReaderState, onRead: () -> Unit, onCancel: () -> Unit, onOpenNfcSettings: () -> Unit) {
-    MaterialTheme {
+    MaterialTheme(colorScheme = SampleColors) {
         Surface(Modifier.fillMaxSize().semantics { testTagsAsResourceId = true }) {
             Column(
                 Modifier.safeDrawingPadding().verticalScroll(rememberScrollState()).padding(16.dp),

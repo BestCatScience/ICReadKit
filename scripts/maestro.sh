@@ -50,7 +50,7 @@ case "$platform" in
   android)
     device="${MAESTRO_DEVICE_ID:-emulator-5554}"
     adb="${ANDROID_HOME:-$HOME/Library/Android/sdk}/platform-tools/adb"
-    (cd android && ./gradlew -q :sample:assembleDebug)
+    (cd android && JAVA_HOME="$java_home" ./gradlew -q :sample:assembleDebug)
     "$adb" -s "$device" install -r android/sample/build/outputs/apk/debug/sample-debug.apk
     ;;
   *)
