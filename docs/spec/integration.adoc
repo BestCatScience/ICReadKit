@@ -1,0 +1,146 @@
+= ICReadKit 組み込み仕様書
+:toc:
+:revnumber: 0.2.0
+:revdate: 2026-11-11
+
+この仕様書は、ICReadKit をアプリに組み込む事業者のエンジニア向けです。
+変更はプルリクエストでレビューし、版ごとの差分は <<changelog>> に残します。
+
+== 提供するもの
+
+マイナンバーカードの利用者証明用電子証明書を NFC で読み、次の 3 つだけを返します。
+
+[cols="1,3"]
+|===
+|項目 |内容
+
+|発行者
+|証明書の発行者名。共通名がなければ組織単位と組織名
+
+|有効期間の開始
+|証明書の notBefore
+
+|有効期間の終了
+|証明書の notAfter
+|===
+
+シリアル番号、主体者名、公開鍵、証明書のバイト列は返しません。暗証番号は使いません。
+
+== 動作環境
+
+[cols="1,2"]
+|===
+|項目 |条件
+
+|OS
+|iOS 16 以降
+
+|端末
+|NFC を持つ iPhone（iPhone 8 以降）。シミュレーターでは NFC は使えない
+
+|配布形態
+|XCFramework（GitHub Release）、または Swift Package
+|===
+
+== 組み込み手順
+
+. XCFramework を Embed & Sign で追加する。Swift Package Manager の場合は、Release に記載の `binaryTarget` を使う。
+. Info.plist に次を追加する。
++
+[source,xml]
+----
+<key>NFCReaderUsageDescription</key>
+<string>（利用目的）</string>
+<key>com.apple.developer.nfc.readersession.iso7816.select-identifiers</key>
+<array>
+  <string>D392F000260100000001</string>
+</array>
+----
+. entitlements の `com.apple.developer.nfc.readersession.formats` に `TAG` だけを入れる。
++
+IMPORTANT: 最低対応 OS が iOS 13 以降のアプリで `NDEF` を入れると、App Store へのアップロード時に ITMS-90778 で拒否されると報告されています。entitlements はアプリ側の設定のため、SDK から変更できません。
+. 読み取りボタンを表示する前に `CardReader.availability()` を呼び、`.available` のときだけ有効にする。
+
+== API
+
+[source,swift]
+----
+let reader = CardReader(onEvent: { event in analytics.send(event) })
+let summary = try await reader.readCertificateSummary()
+summary.validity()   // .valid / .expired / .notYetValid
+----
+
+期限切れの証明書はエラーではなく結果として返します。利用者への伝え方はアプリで決めてください。
+
+公開している列挙型（`CardReadError`、`CardReadEvent` など）は、後の版でケースを追加することがあります。`switch` には `@unknown default` を書いてください。
+
+== エラー
+
+[cols="1,2,2"]
+|===
+|ケース |意味 |推奨する対応
+
+|`unavailable(reason)`
+|端末または設定の理由で読めない
+|理由を表示する。再試行では直らない
+
+|`cancelled`
+|利用者が読み取りシートを閉じた
+|何もしない
+
+|`timeout`
+|カードが当てられないまま時間切れ
+|再試行を促す
+
+|`connectionLost`
+|読み取り中にカードが離れた
+|動かさずに当て直すよう伝える
+
+|`unsupportedCard`
+|公的個人認証のアプリケーションがないカード
+|マイナンバーカードを当てるよう伝える
+
+|`cardRejected(statusWord)`
+|カードが命令を拒否した
+|状態語を問い合わせ用に記録する
+
+|`malformedCertificate`
+|証明書として読めない応答
+|再試行を促す。続く場合は問い合わせ
+
+|`system(code)`
+|対応表にない Core NFC のエラー
+|コードを問い合わせ用に記録する
+|===
+
+== 計測イベント
+
+`onEvent` には次のイベントが届きます。カードのデータは含みません。
+
+* `started(demo:)`：読み取りシートを開いた
+* `cardDetected(attempt:)`：カードを検出した。2 以上は、カードが一度離れて戻った
+* `finished(outcome, duration:)`：読み取りが終わった。結果と所要時間
+
+離脱率は、`started` の件数に対する `finished(.read)` 以外の件数の割合で求められます。`cardDetected` の有無で、「カードを当てられなかった」と「当てたが途中で離れた」を分けられます。
+
+== 互換性の方針
+
+* 公開 API の変更は、基準ファイル（`api/ICReadKit.json`）との比較で検査し、互換を壊す変更は CI で止めます。
+* 互換を壊す変更を入れる場合は、版の上位の数字を上げ、Release とこの仕様書の <<changelog>> に理由と移行方法を書きます。
+* ケースや初期化子の追加など、互換を保つ変更は中位の数字を上げます。
+
+[[changelog]]
+== 変更履歴
+
+[cols="1,1,4"]
+|===
+|版 |日付 |内容
+
+|0.2.0
+|2026-11-11
+|計測イベント（`CardReadEvent`）と、イベントを受け取る初期化子を追加。既存の初期化子は変更なし
+
+|0.1.0
+|2026-11-11
+|初版
+|===

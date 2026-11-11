@@ -1,0 +1,27 @@
+appId: com.bestcatscience.icreadsample
+name: Another kind of card is explained, and the app keeps running
+tags: [ci]
+---
+- launchApp:
+    clearState: true
+- tapOn:
+    id: demo-card-other-card
+- tapOn:
+    id: read-button
+- extendedWaitUntil:
+    visible:
+      id: error-message
+    timeout: 15000
+- assertVisible:
+    id: error-message
+    text: ".*対応していません.*"
+# The app must still accept another read after the failure.
+- tapOn:
+    id: demo-card-valid
+- tapOn:
+    id: read-button
+- extendedWaitUntil:
+    visible:
+      id: result-validity
+    timeout: 15000
+- takeScreenshot: recovered-after-other-card

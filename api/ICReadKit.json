@@ -900,6 +900,514 @@
       },
       {
         "kind": "TypeDecl",
+        "name": "CardReadEvent",
+        "printedName": "CardReadEvent",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "started",
+            "printedName": "started",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ICReadKit.CardReadEvent.Type) -> (Swift.Bool) -> ICReadKit.CardReadEvent",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(Swift.Bool) -> ICReadKit.CardReadEvent",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "CardReadEvent",
+                        "printedName": "ICReadKit.CardReadEvent",
+                        "usr": "s:9ICReadKit13CardReadEventO"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Tuple",
+                        "printedName": "(demo: Swift.Bool)",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Bool",
+                            "printedName": "Swift.Bool",
+                            "usr": "s:Sb"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ICReadKit.CardReadEvent.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "CardReadEvent",
+                        "printedName": "ICReadKit.CardReadEvent",
+                        "usr": "s:9ICReadKit13CardReadEventO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:9ICReadKit13CardReadEventO7startedyACSb_tcACmF",
+            "mangledName": "$s9ICReadKit13CardReadEventO7startedyACSb_tcACmF",
+            "moduleName": "ICReadKit"
+          },
+          {
+            "kind": "Var",
+            "name": "cardDetected",
+            "printedName": "cardDetected",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ICReadKit.CardReadEvent.Type) -> (Swift.Int) -> ICReadKit.CardReadEvent",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(Swift.Int) -> ICReadKit.CardReadEvent",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "CardReadEvent",
+                        "printedName": "ICReadKit.CardReadEvent",
+                        "usr": "s:9ICReadKit13CardReadEventO"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Tuple",
+                        "printedName": "(attempt: Swift.Int)",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Int",
+                            "printedName": "Swift.Int",
+                            "usr": "s:Si"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ICReadKit.CardReadEvent.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "CardReadEvent",
+                        "printedName": "ICReadKit.CardReadEvent",
+                        "usr": "s:9ICReadKit13CardReadEventO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:9ICReadKit13CardReadEventO12cardDetectedyACSi_tcACmF",
+            "mangledName": "$s9ICReadKit13CardReadEventO12cardDetectedyACSi_tcACmF",
+            "moduleName": "ICReadKit"
+          },
+          {
+            "kind": "Var",
+            "name": "finished",
+            "printedName": "finished",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ICReadKit.CardReadEvent.Type) -> (ICReadKit.CardReadEvent.Outcome, Swift.Duration) -> ICReadKit.CardReadEvent",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(ICReadKit.CardReadEvent.Outcome, Swift.Duration) -> ICReadKit.CardReadEvent",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "CardReadEvent",
+                        "printedName": "ICReadKit.CardReadEvent",
+                        "usr": "s:9ICReadKit13CardReadEventO"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Tuple",
+                        "printedName": "(ICReadKit.CardReadEvent.Outcome, duration: Swift.Duration)",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Outcome",
+                            "printedName": "ICReadKit.CardReadEvent.Outcome",
+                            "usr": "s:9ICReadKit13CardReadEventO7OutcomeO"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Duration",
+                            "printedName": "Swift.Duration",
+                            "usr": "s:s8DurationV"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ICReadKit.CardReadEvent.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "CardReadEvent",
+                        "printedName": "ICReadKit.CardReadEvent",
+                        "usr": "s:9ICReadKit13CardReadEventO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:9ICReadKit13CardReadEventO8finishedyA2C7OutcomeO_s8DurationVtcACmF",
+            "mangledName": "$s9ICReadKit13CardReadEventO8finishedyA2C7OutcomeO_s8DurationVtcACmF",
+            "moduleName": "ICReadKit"
+          },
+          {
+            "kind": "TypeDecl",
+            "name": "Outcome",
+            "printedName": "Outcome",
+            "children": [
+              {
+                "kind": "Var",
+                "name": "read",
+                "printedName": "read",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(ICReadKit.CardReadEvent.Outcome.Type) -> (ICReadKit.CertificateSummary.Validity) -> ICReadKit.CardReadEvent.Outcome",
+                    "children": [
+                      {
+                        "kind": "TypeFunc",
+                        "name": "Function",
+                        "printedName": "(ICReadKit.CertificateSummary.Validity) -> ICReadKit.CardReadEvent.Outcome",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Outcome",
+                            "printedName": "ICReadKit.CardReadEvent.Outcome",
+                            "usr": "s:9ICReadKit13CardReadEventO7OutcomeO"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Validity",
+                            "printedName": "ICReadKit.CertificateSummary.Validity",
+                            "usr": "s:9ICReadKit18CertificateSummaryV8ValidityO"
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Metatype",
+                        "printedName": "ICReadKit.CardReadEvent.Outcome.Type",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Outcome",
+                            "printedName": "ICReadKit.CardReadEvent.Outcome",
+                            "usr": "s:9ICReadKit13CardReadEventO7OutcomeO"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "declKind": "EnumElement",
+                "usr": "s:9ICReadKit13CardReadEventO7OutcomeO4readyAeA18CertificateSummaryV8ValidityOcAEmF",
+                "mangledName": "$s9ICReadKit13CardReadEventO7OutcomeO4readyAeA18CertificateSummaryV8ValidityOcAEmF",
+                "moduleName": "ICReadKit"
+              },
+              {
+                "kind": "Var",
+                "name": "cancelled",
+                "printedName": "cancelled",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(ICReadKit.CardReadEvent.Outcome.Type) -> ICReadKit.CardReadEvent.Outcome",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Outcome",
+                        "printedName": "ICReadKit.CardReadEvent.Outcome",
+                        "usr": "s:9ICReadKit13CardReadEventO7OutcomeO"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Metatype",
+                        "printedName": "ICReadKit.CardReadEvent.Outcome.Type",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Outcome",
+                            "printedName": "ICReadKit.CardReadEvent.Outcome",
+                            "usr": "s:9ICReadKit13CardReadEventO7OutcomeO"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "declKind": "EnumElement",
+                "usr": "s:9ICReadKit13CardReadEventO7OutcomeO9cancelledyA2EmF",
+                "mangledName": "$s9ICReadKit13CardReadEventO7OutcomeO9cancelledyA2EmF",
+                "moduleName": "ICReadKit"
+              },
+              {
+                "kind": "Var",
+                "name": "failed",
+                "printedName": "failed",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(ICReadKit.CardReadEvent.Outcome.Type) -> (ICReadKit.CardReadError) -> ICReadKit.CardReadEvent.Outcome",
+                    "children": [
+                      {
+                        "kind": "TypeFunc",
+                        "name": "Function",
+                        "printedName": "(ICReadKit.CardReadError) -> ICReadKit.CardReadEvent.Outcome",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Outcome",
+                            "printedName": "ICReadKit.CardReadEvent.Outcome",
+                            "usr": "s:9ICReadKit13CardReadEventO7OutcomeO"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "CardReadError",
+                            "printedName": "ICReadKit.CardReadError",
+                            "usr": "s:9ICReadKit13CardReadErrorO"
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Metatype",
+                        "printedName": "ICReadKit.CardReadEvent.Outcome.Type",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Outcome",
+                            "printedName": "ICReadKit.CardReadEvent.Outcome",
+                            "usr": "s:9ICReadKit13CardReadEventO7OutcomeO"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "declKind": "EnumElement",
+                "usr": "s:9ICReadKit13CardReadEventO7OutcomeO6failedyAeA0cD5ErrorOcAEmF",
+                "mangledName": "$s9ICReadKit13CardReadEventO7OutcomeO6failedyAeA0cD5ErrorOcAEmF",
+                "moduleName": "ICReadKit"
+              },
+              {
+                "kind": "Function",
+                "name": "==",
+                "printedName": "==(_:_:)",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Bool",
+                    "printedName": "Swift.Bool",
+                    "usr": "s:Sb"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Outcome",
+                    "printedName": "ICReadKit.CardReadEvent.Outcome",
+                    "usr": "s:9ICReadKit13CardReadEventO7OutcomeO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Outcome",
+                    "printedName": "ICReadKit.CardReadEvent.Outcome",
+                    "usr": "s:9ICReadKit13CardReadEventO7OutcomeO"
+                  }
+                ],
+                "declKind": "Func",
+                "usr": "s:9ICReadKit13CardReadEventO7OutcomeO2eeoiySbAE_AEtFZ",
+                "mangledName": "$s9ICReadKit13CardReadEventO7OutcomeO2eeoiySbAE_AEtFZ",
+                "moduleName": "ICReadKit",
+                "static": true,
+                "funcSelfKind": "NonMutating"
+              }
+            ],
+            "declKind": "Enum",
+            "usr": "s:9ICReadKit13CardReadEventO7OutcomeO",
+            "mangledName": "$s9ICReadKit13CardReadEventO7OutcomeO",
+            "moduleName": "ICReadKit",
+            "conformances": [
+              {
+                "kind": "Conformance",
+                "name": "Copyable",
+                "printedName": "Copyable",
+                "usr": "s:s8CopyableP",
+                "mangledName": "$ss8CopyableP"
+              },
+              {
+                "kind": "Conformance",
+                "name": "Equatable",
+                "printedName": "Equatable",
+                "usr": "s:SQ",
+                "mangledName": "$sSQ"
+              },
+              {
+                "kind": "Conformance",
+                "name": "Escapable",
+                "printedName": "Escapable",
+                "usr": "s:s9EscapableP",
+                "mangledName": "$ss9EscapableP"
+              },
+              {
+                "kind": "Conformance",
+                "name": "Sendable",
+                "printedName": "Sendable",
+                "usr": "s:s8SendableP",
+                "mangledName": "$ss8SendableP"
+              },
+              {
+                "kind": "Conformance",
+                "name": "SendableMetatype",
+                "printedName": "SendableMetatype",
+                "usr": "s:s16SendableMetatypeP",
+                "mangledName": "$ss16SendableMetatypeP"
+              }
+            ]
+          },
+          {
+            "kind": "Function",
+            "name": "==",
+            "printedName": "==(_:_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "CardReadEvent",
+                "printedName": "ICReadKit.CardReadEvent",
+                "usr": "s:9ICReadKit13CardReadEventO"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "CardReadEvent",
+                "printedName": "ICReadKit.CardReadEvent",
+                "usr": "s:9ICReadKit13CardReadEventO"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:9ICReadKit13CardReadEventO2eeoiySbAC_ACtFZ",
+            "mangledName": "$s9ICReadKit13CardReadEventO2eeoiySbAC_ACtFZ",
+            "moduleName": "ICReadKit",
+            "static": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Enum",
+        "usr": "s:9ICReadKit13CardReadEventO",
+        "mangledName": "$s9ICReadKit13CardReadEventO",
+        "moduleName": "ICReadKit",
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "SendableMetatype",
+            "printedName": "SendableMetatype",
+            "usr": "s:s16SendableMetatypeP",
+            "mangledName": "$ss16SendableMetatypeP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeAlias",
+        "name": "CardReadEventHandler",
+        "printedName": "CardReadEventHandler",
+        "children": [
+          {
+            "kind": "TypeFunc",
+            "name": "Function",
+            "printedName": "(ICReadKit.CardReadEvent) -> Swift.Void",
+            "children": [
+              {
+                "kind": "TypeNameAlias",
+                "name": "Void",
+                "printedName": "Swift.Void",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ]
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "CardReadEvent",
+                "printedName": "ICReadKit.CardReadEvent",
+                "usr": "s:9ICReadKit13CardReadEventO"
+              }
+            ]
+          }
+        ],
+        "declKind": "TypeAlias",
+        "usr": "s:9ICReadKit20CardReadEventHandlera",
+        "mangledName": "$s9ICReadKit20CardReadEventHandlera",
+        "moduleName": "ICReadKit"
+      },
+      {
+        "kind": "TypeDecl",
         "name": "CardReader",
         "printedName": "CardReader",
         "children": [
@@ -1764,6 +2272,78 @@
             "declKind": "Constructor",
             "usr": "s:9ICReadKit10CardReaderV6source8messagesA2C6SourceO_AC8MessagesVtcfc",
             "mangledName": "$s9ICReadKit10CardReaderV6source8messagesA2C6SourceO_AC8MessagesVtcfc",
+            "moduleName": "ICReadKit",
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(source:messages:onEvent:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CardReader",
+                "printedName": "ICReadKit.CardReader",
+                "usr": "s:9ICReadKit10CardReaderV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Source",
+                "printedName": "ICReadKit.CardReader.Source",
+                "hasDefaultArg": true,
+                "usr": "s:9ICReadKit10CardReaderV6SourceO"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Messages",
+                "printedName": "ICReadKit.CardReader.Messages",
+                "hasDefaultArg": true,
+                "usr": "s:9ICReadKit10CardReaderV8MessagesV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "ICReadKit.CardReadEventHandler?",
+                "children": [
+                  {
+                    "kind": "TypeNameAlias",
+                    "name": "CardReadEventHandler",
+                    "printedName": "ICReadKit.CardReadEventHandler",
+                    "children": [
+                      {
+                        "kind": "TypeFunc",
+                        "name": "Function",
+                        "printedName": "(ICReadKit.CardReadEvent) -> Swift.Void",
+                        "children": [
+                          {
+                            "kind": "TypeNameAlias",
+                            "name": "Void",
+                            "printedName": "Swift.Void",
+                            "children": [
+                              {
+                                "kind": "TypeNominal",
+                                "name": "Void",
+                                "printedName": "()"
+                              }
+                            ]
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "CardReadEvent",
+                            "printedName": "ICReadKit.CardReadEvent",
+                            "usr": "s:9ICReadKit13CardReadEventO"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:9ICReadKit10CardReaderV6source8messages7onEventA2C6SourceO_AC8MessagesVyAA0c4ReadH0OYbcSgtcfc",
+            "mangledName": "$s9ICReadKit10CardReaderV6source8messages7onEventA2C6SourceO_AC8MessagesVyAA0c4ReadH0OYbcSgtcfc",
             "moduleName": "ICReadKit",
             "init_kind": "Designated"
           },

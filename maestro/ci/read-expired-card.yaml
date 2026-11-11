@@ -1,0 +1,20 @@
+appId: com.bestcatscience.icreadsample
+name: An expired certificate is a result, not an error
+tags: [ci]
+---
+- launchApp:
+    clearState: true
+- tapOn:
+    id: demo-card-expired
+- tapOn:
+    id: read-button
+- extendedWaitUntil:
+    visible:
+      id: result-validity
+    timeout: 15000
+- assertVisible:
+    id: result-validity
+    text: ".*期限切れ.*"
+- assertNotVisible:
+    id: error-message
+- takeScreenshot: expired-card

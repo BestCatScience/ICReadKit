@@ -224,3 +224,50 @@ import CoreNFC
     }
 }
 #endif
+
+/// Collects events from any thread.
+final class EventLog: @unchecked Sendable {
+    private let lock = NSLock()
+    private var stored: [CardReadEvent] = []
+    var events: [CardReadEvent] { lock.withLock { stored } }
+    func record(_ event: CardReadEvent) { lock.withLock { stored.append(event) } }
+
+    /// The events with durations zeroed, so tests can compare them exactly.
+    var steps: [CardReadEvent] {
+        events.map {
+            if case .finished(let outcome, _) = $0 { return .finished(outcome, duration: .zero) }
+            return $0
+        }
+    }
+}
+
+@Suite struct EventTests {
+    @Test func aSuccessfulReadWalksTheWholeFunnel() async throws {
+        let log = EventLog()
+        _ = try await CardReader(source: .demo(.valid), onEvent: log.record).readCertificateSummary()
+        #expect(log.steps == [.started(demo: true), .cardDetected(attempt: 1), .finished(.read(.valid), duration: .zero)])
+    }
+
+    @Test func anExpiredCardIsStillARead() async throws {
+        let log = EventLog()
+        _ = try await CardReader(source: .demo(.expired), onEvent: log.record).readCertificateSummary()
+        #expect(log.steps.last == .finished(.read(.expired), duration: .zero))
+    }
+
+    @Test func failuresCarryTheReasonButNoCardData() async {
+        let log = EventLog()
+        _ = try? await CardReader(source: .demo(.connectionLost), onEvent: log.record).readCertificateSummary()
+        #expect(log.steps == [.started(demo: true), .cardDetected(attempt: 1), .finished(.failed(.connectionLost), duration: .zero)])
+    }
+
+    @Test func aDurationIsMeasuredFromStart() async throws {
+        let log = EventLog()
+        _ = try await CardReader(source: .demo(.valid), onEvent: log.record).readCertificateSummary()
+        guard case .finished(_, let duration) = log.events.last else { Issue.record("no finished event"); return }
+        #expect(duration >= .zero && duration < .seconds(5))
+    }
+
+    @Test func theOldInitializerStillWorksWithoutEvents() async throws {
+        _ = try await CardReader(source: .demo(.valid)).readCertificateSummary()
+    }
+}

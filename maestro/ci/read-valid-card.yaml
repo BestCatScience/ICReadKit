@@ -1,0 +1,20 @@
+appId: com.bestcatscience.icreadsample
+name: A valid demo card shows the certificate as valid
+tags: [ci]
+---
+- launchApp:
+    clearState: true
+- tapOn:
+    id: demo-card-valid
+- tapOn:
+    id: read-button
+- extendedWaitUntil:
+    visible:
+      id: result-validity
+    timeout: 15000
+- assertVisible:
+    id: result-validity
+    text: ".*有効.*"
+- assertVisible:
+    id: result-period
+- takeScreenshot: valid-card

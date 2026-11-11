@@ -5,6 +5,10 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # Weekly regression on a fixed day, so a new Xcode or simulator image is caught
+  # even when nobody changes the code.
+  schedule:
+    - cron: '0 0 * * 1'
 
 concurrency:
   group: icreadkit-ci-${{ github.ref }}
@@ -14,8 +18,20 @@ permissions:
   contents: read
 
 jobs:
+  review:
+    name: Security review checks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Review checks (URL literals, logging, storage, PIN commands, new dependencies)
+        run: python3 scripts/review_checks.py
+      - name: Test the checks and the agent hooks
+        run: python3 -m unittest discover -s scripts/tests
+
   apple:
     name: Test, package and check the API
+    needs: review
     runs-on: macos-26
     timeout-minutes: 45
     env:
@@ -37,3 +53,48 @@ jobs:
         run: bash scripts/build-xcframework.sh
       - name: Check the public API against the baseline
         run: bash scripts/check-api.sh
+
+  e2e:
+    name: Maestro E2E with demo cards
+    needs: review
+    runs-on: macos-26
+    timeout-minutes: 45
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.4.1.app/Contents/Developer
+      SIMULATOR_NAME: iPhone 17
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 2
+      # macOS minutes are costly on a private repository, so a pull request runs
+      # the flows only when it can change what the screens do.
+      - name: Decide whether the screens can change
+        id: scope
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          if [[ "$EVENT_NAME" != 'pull_request' ]] ||
+             git diff --name-only HEAD^1 HEAD | grep -qE '^(App/|Sources/|maestro/|project\.yml$|scripts/maestro\.sh$|\.github/workflows/)'; then
+            echo 'run=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'run=false' >> "$GITHUB_OUTPUT"
+            echo 'No screen-facing change; skipping the Maestro flows.'
+          fi
+      - name: Pick the iPhone simulator
+        if: steps.scope.outputs.run == 'true'
+        run: |
+          udid="$(xcrun simctl list devices available -j | ruby -rjson -e '
+            name = ENV.fetch("SIMULATOR_NAME")
+            device = JSON.parse(STDIN.read).fetch("devices").values.flatten.find { |d| d["name"] == name && d["isAvailable"] }
+            abort("No available simulator named #{name}") unless device
+            puts device.fetch("udid")
+          ')"
+          echo "MAESTRO_DEVICE_ID=$udid" >> "$GITHUB_ENV"
+      - name: Run the Maestro flows
+        if: steps.scope.outputs.run == 'true'
+        env:
+          MAESTRO_JUNIT_PATH: build/maestro/report.xml
+        run: bash scripts/maestro.sh
+      - name: Print the Maestro report
+        if: always() && steps.scope.outputs.run == 'true'
+        run: cat build/maestro/report.xml || echo 'No Maestro report was written.'

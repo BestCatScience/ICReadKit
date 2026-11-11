@@ -38,7 +38,7 @@ final class ICReadSampleUITests: XCTestCase {
         XCTAssertTrue(message.label.contains("動かさずに"))
     }
 
-    private func read(card: String) -> XCUIApplication {
+    func read(card: String) -> XCUIApplication {
         let app = XCUIApplication()
         app.launch()
         let demo = app.buttons["demo-card-\(card)"]
@@ -46,5 +46,17 @@ final class ICReadSampleUITests: XCTestCase {
         demo.tap()
         app.buttons["read-button"].tap()
         return app
+    }
+}
+
+extension ICReadSampleUITests {
+    func testTheFunnelCountsAnAbandonedRead() {
+        let app = read(card: "connection-lost")
+        let rate = app.staticTexts["funnel-abandon-rate"]
+        // The measurement section sits below the result; a List only builds rows it shows.
+        XCTAssertTrue(app.staticTexts["error-message"].waitForExistence(timeout: 10))
+        for _ in 0..<4 where !rate.exists { app.swipeUp() }
+        XCTAssertTrue(rate.waitForExistence(timeout: 5))
+        XCTAssertTrue(rate.label.contains("100"))
     }
 }

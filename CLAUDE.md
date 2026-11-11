@@ -1,0 +1,1 @@
+Read and follow `AGENTS.md`. The hooks in `.claude/settings.json` refuse edits that add a security review finding (`scripts/review_checks.py`) and keep a turn from ending while those checks or `scripts/tests` fail.

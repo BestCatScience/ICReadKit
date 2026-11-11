@@ -39,6 +39,7 @@ struct ReaderScreen: View {
                 }
 
                 resultSection
+                measurementSection
             }
             .navigationTitle("IC 証明書リーダー")
         }
@@ -90,6 +91,32 @@ struct ReaderScreen: View {
                 Text(ReaderModel.message(for: error))
                     .foregroundStyle(.red)
                     .accessibilityIdentifier("error-message")
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var measurementSection: some View {
+        if model.funnel.started > 0 {
+            Section {
+                LabeledContent("開始", value: "\(model.funnel.started)")
+                LabeledContent("カード検出", value: "\(model.funnel.cardDetected)")
+                LabeledContent("読み取り", value: "\(model.funnel.read)")
+                if let rate = model.funnel.abandonRate {
+                    LabeledContent("離脱率") {
+                        Text(rate.formatted(.percent.precision(.fractionLength(0))))
+                            .accessibilityIdentifier("funnel-abandon-rate")
+                    }
+                }
+                ForEach(Array(model.events.enumerated()), id: \.offset) { _, event in
+                    Text(ReaderModel.describe(event))
+                        .font(.caption.monospaced())
+                        .foregroundStyle(.secondary)
+                }
+            } header: {
+                Text("計測イベント")
+            } footer: {
+                Text("カードのデータは含みません。実際のアプリでは、ここに出したイベントを監視基盤に送ります。")
             }
         }
     }

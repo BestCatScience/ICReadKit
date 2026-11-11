@@ -14,6 +14,19 @@ final class ReaderModel {
     }
 
     private(set) var phase: Phase = .idle
+    /// The latest events, newest first. In a real app these go to analytics instead.
+    private(set) var events: [CardReadEvent] = []
+    private(set) var funnel = Funnel()
+
+    /// Counts for the read funnel, kept only on this device.
+    struct Funnel: Equatable {
+        var started = 0
+        var cardDetected = 0
+        var read = 0
+
+        /// The share of reads that never produced a certificate.
+        var abandonRate: Double? { started == 0 ? nil : Double(started - read) / Double(started) }
+    }
     var demoCard: DemoCard = .valid
     /// True on a device without an NFC reader, such as the simulator, so every screen can still be shown.
     let usesDemoCards: Bool
@@ -28,13 +41,45 @@ final class ReaderModel {
 
     func read() async {
         phase = .reading
-        let reader = CardReader(source: usesDemoCards ? .demo(demoCard) : .nfc)
+        let reader = CardReader(source: usesDemoCards ? .demo(demoCard) : .nfc) { event in
+            Task { @MainActor in self.record(event) }
+        }
         do throws(CardReadError) {
             phase = .read(try await reader.readCertificateSummary())
         } catch .cancelled {
             phase = .idle
         } catch {
             phase = .failed(error)
+        }
+    }
+
+    private func record(_ event: CardReadEvent) {
+        events.insert(event, at: 0)
+        events = Array(events.prefix(6))
+        switch event {
+        case .started: funnel.started += 1
+        case .cardDetected(let attempt) where attempt == 1: funnel.cardDetected += 1
+        case .finished(.read, _): funnel.read += 1
+        default: break
+        }
+    }
+
+    static func describe(_ event: CardReadEvent) -> String {
+        switch event {
+        case .started(let demo): demo ? "開始（デモ）" : "開始"
+        case .cardDetected(let attempt): attempt == 1 ? "カード検出" : "カード再検出（\(attempt) 回目）"
+        case .finished(let outcome, let duration):
+            "終了：\(describe(outcome))（\(duration.formatted(.units(allowed: [.seconds, .milliseconds], width: .narrow)))）"
+        @unknown default: "不明なイベント"
+        }
+    }
+
+    private static func describe(_ outcome: CardReadEvent.Outcome) -> String {
+        switch outcome {
+        case .read(let validity): validity == .valid ? "読み取り（有効）" : "読み取り（有効でない）"
+        case .cancelled: "中止"
+        case .failed(let error): "失敗・\(String(describing: error))"
+        @unknown default: "不明"
         }
     }
 

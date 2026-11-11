@@ -71,6 +71,24 @@ do {
 
 システムの読み取りシートに出る文言は `CardReader.Messages` で差し替えられます（既定は日本語）。
 
+## 計測イベント
+
+`CardReader(onEvent:)` で、読み取りの各段階（開始、カード検出、終了と所要時間）を受け取れます。カードのデータは含まないので、そのまま監視基盤（Datadog など）に送れます。「開始したのに読み取りまで行かなかった割合」が離脱率で、カード検出の有無で「当てられなかった」と「途中で離れた」を分けられます。サンプルアプリはこの集計を画面に出します。
+
+## 品質の仕組み
+
+| 仕組み | 何を止めるか |
+|---|---|
+| 単体テスト | 命令のバイト列、分割読み出し、カードの拒否、証明書の解析、設定漏れ、計測イベント |
+| UI テスト（XCUITest） | デモカード 4 通りの結果画面と、離脱率の集計 |
+| Maestro（`maestro/ci`） | 有効・期限切れ・別のカードの 3 本。別のカードの後にもう一度読めることも確かめる |
+| 公開 API の検査（`scripts/check-api.sh`） | 組み込み先を壊す API の変更 |
+| セキュリティの検査（`scripts/review_checks.py`） | URL の直書き、ログ出力、端末への保存、通信、暗証番号の命令、新しい依存 |
+| Claude Code の hook（`.claude/settings.json`） | 上の検査に触れる編集をその場で拒否し、検査が通るまで作業を終えさせない |
+| 毎週の定期実行と Dependabot | 新しい Xcode やアクションの更新で壊れたことに、コードを変えなくても気づく |
+
+タグ（例：`v0.2.0`）を push すると、XCFramework の zip、Swift Package Manager 用のチェックサム、README が GitHub Release に出ます。事業者向けの仕様書は `docs/spec/integration.adoc`（AsciiDoc）にあり、変更はプルリクエストでレビューします。
+
 ## 開発
 
 ```bash
@@ -79,6 +97,8 @@ xcodebuild test -project ICReadKit.xcodeproj -scheme ICReadKit -destination 'pla
 xcodebuild test -project ICReadKit.xcodeproj -scheme ICReadSample -destination 'platform=iOS Simulator,name=iPhone 17'
 bash scripts/build-xcframework.sh       # build/ICReadKit.xcframework を作る
 bash scripts/check-api.sh               # 公開 API が基準から壊れていないか確かめる
+python3 scripts/review_checks.py        # セキュリティの検査
+MAESTRO_DEVICE_ID=<UDID> bash scripts/maestro.sh  # Maestro のフロー（版とチェックサムを固定した CLI を取得する）
 ```
 
 公開 API を意図して変えるときは `bash scripts/check-api.sh --update` で基準を更新し、何が壊れるかをコミットに書きます。
