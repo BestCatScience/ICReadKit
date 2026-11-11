@@ -1,0 +1,99 @@
+name: ICReadKit
+options:
+  bundleIdPrefix: com.bestcatscience
+  createIntermediateGroups: true
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    SWIFT_TREAT_WARNINGS_AS_ERRORS: YES
+    DEVELOPMENT_TEAM: GT7P3628ZM
+    MARKETING_VERSION: 0.1.0
+    CURRENT_PROJECT_VERSION: 1
+targets:
+  # The kit as a binary framework, the way a host app receives it.
+  ICReadKit:
+    type: framework
+    platform: iOS
+    deploymentTarget: "16.0"
+    sources:
+      - Sources/ICReadKit
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.bestcatscience.icreadkit
+        BUILD_LIBRARY_FOR_DISTRIBUTION: YES
+        SKIP_INSTALL: NO
+        GENERATE_INFOPLIST_FILE: YES
+  # A host app that embeds the framework, as a customer's app would.
+  ICReadSample:
+    type: application
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - App/ICReadSample
+    dependencies:
+      - target: ICReadKit
+    entitlements:
+      path: App/ICReadSample/ICReadSample.entitlements
+      properties:
+        # TAG only. With a deployment target of iOS 13 or later, NDEF here is
+        # rejected at upload (ITMS-90778).
+        com.apple.developer.nfc.readersession.formats:
+          - TAG
+    info:
+      path: App/ICReadSample/Info.plist
+      properties:
+        CFBundleDisplayName: IC 証明書リーダー
+        CFBundleDevelopmentRegion: ja
+        UILaunchScreen: {}
+        NFCReaderUsageDescription: マイナンバーカードの証明書の有効期限を確かめるために使います
+        com.apple.developer.nfc.readersession.iso7816.select-identifiers:
+          - D392F000260100000001
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.bestcatscience.icreadsample
+        CODE_SIGN_STYLE: Automatic
+        TARGETED_DEVICE_FAMILY: "1,2"
+  # Unit tests for the kit. They use scripted and demo transports, so no card or phone is needed.
+  ICReadKitTests:
+    type: bundle.unit-test
+    platform: iOS
+    deploymentTarget: "16.0"
+    sources:
+      - Tests/ICReadKitTests
+    dependencies:
+      - target: ICReadKit
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.bestcatscience.icreadkit.tests
+        GENERATE_INFOPLIST_FILE: YES
+  # Runs on the simulator, where the app falls back to demo cards.
+  ICReadSampleUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - App/ICReadSampleUITests
+    dependencies:
+      - target: ICReadSample
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.bestcatscience.icreadsample.uitests
+        GENERATE_INFOPLIST_FILE: YES
+schemes:
+  ICReadKit:
+    build:
+      targets:
+        ICReadKit: all
+        ICReadKitTests: [test]
+    test:
+      targets:
+        - ICReadKitTests
+  ICReadSample:
+    build:
+      targets:
+        ICReadSample: all
+        ICReadSampleUITests: [test]
+    test:
+      targets:
+        - ICReadSampleUITests

@@ -1,0 +1,2819 @@
+{
+  "ABIRoot": {
+    "kind": "Root",
+    "name": "ICReadKit",
+    "printedName": "ICReadKit",
+    "children": [
+      {
+        "kind": "Import",
+        "name": "CoreNFC",
+        "printedName": "CoreNFC",
+        "declKind": "Import",
+        "moduleName": "ICReadKit"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "ICReadKit"
+      },
+      {
+        "kind": "Import",
+        "name": "_Concurrency",
+        "printedName": "_Concurrency",
+        "declKind": "Import",
+        "moduleName": "ICReadKit"
+      },
+      {
+        "kind": "Import",
+        "name": "_StringProcessing",
+        "printedName": "_StringProcessing",
+        "declKind": "Import",
+        "moduleName": "ICReadKit"
+      },
+      {
+        "kind": "Import",
+        "name": "_SwiftConcurrencyShims",
+        "printedName": "_SwiftConcurrencyShims",
+        "declKind": "Import",
+        "moduleName": "ICReadKit"
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "Availability",
+        "printedName": "Availability",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "available",
+            "printedName": "available",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ICReadKit.Availability.Type) -> ICReadKit.Availability",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Availability",
+                    "printedName": "ICReadKit.Availability",
+                    "usr": "s:9ICReadKit12AvailabilityO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ICReadKit.Availability.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Availability",
+                        "printedName": "ICReadKit.Availability",
+                        "usr": "s:9ICReadKit12AvailabilityO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:9ICReadKit12AvailabilityO9availableyA2CmF",
+            "mangledName": "$s9ICReadKit12AvailabilityO9availableyA2CmF",
+            "moduleName": "ICReadKit"
+          },
+          {
+            "kind": "Var",
+            "name": "unavailable",
+            "printedName": "unavailable",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ICReadKit.Availability.Type) -> (ICReadKit.Availability.Reason) -> ICReadKit.Availability",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(ICReadKit.Availability.Reason) -> ICReadKit.Availability",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Availability",
+                        "printedName": "ICReadKit.Availability",
+                        "usr": "s:9ICReadKit12AvailabilityO"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Reason",
+                        "printedName": "ICReadKit.Availability.Reason",
+                        "usr": "s:9ICReadKit12AvailabilityO6ReasonO"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ICReadKit.Availability.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Availability",
+                        "printedName": "ICReadKit.Availability",
+                        "usr": "s:9ICReadKit12AvailabilityO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:9ICReadKit12AvailabilityO11unavailableyA2C6ReasonOcACmF",
+            "mangledName": "$s9ICReadKit12AvailabilityO11unavailableyA2C6ReasonOcACmF",
+            "moduleName": "ICReadKit"
+          },
+          {
+            "kind": "TypeDecl",
+            "name": "Reason",
+            "printedName": "Reason",
+            "children": [
+              {
+                "kind": "Var",
+                "name": "readingUnsupported",
+                "printedName": "readingUnsupported",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(ICReadKit.Availability.Reason.Type) -> ICReadKit.Availability.Reason",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Reason",
+                        "printedName": "ICReadKit.Availability.Reason",
+                        "usr": "s:9ICReadKit12AvailabilityO6ReasonO"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Metatype",
+                        "printedName": "ICReadKit.Availability.Reason.Type",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Reason",
+                            "printedName": "ICReadKit.Availability.Reason",
+                            "usr": "s:9ICReadKit12AvailabilityO6ReasonO"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "declKind": "EnumElement",
+                "usr": "s:9ICReadKit12AvailabilityO6ReasonO18readingUnsupportedyA2EmF",
+                "mangledName": "$s9ICReadKit12AvailabilityO6ReasonO18readingUnsupportedyA2EmF",
+                "moduleName": "ICReadKit"
+              },
+              {
+                "kind": "Var",
+                "name": "missingUsageDescription",
+                "printedName": "missingUsageDescription",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(ICReadKit.Availability.Reason.Type) -> ICReadKit.Availability.Reason",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Reason",
+                        "printedName": "ICReadKit.Availability.Reason",
+                        "usr": "s:9ICReadKit12AvailabilityO6ReasonO"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Metatype",
+                        "printedName": "ICReadKit.Availability.Reason.Type",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Reason",
+                            "printedName": "ICReadKit.Availability.Reason",
+                            "usr": "s:9ICReadKit12AvailabilityO6ReasonO"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "declKind": "EnumElement",
+                "usr": "s:9ICReadKit12AvailabilityO6ReasonO23missingUsageDescriptionyA2EmF",
+                "mangledName": "$s9ICReadKit12AvailabilityO6ReasonO23missingUsageDescriptionyA2EmF",
+                "moduleName": "ICReadKit"
+              },
+              {
+                "kind": "Var",
+                "name": "missingApplicationIdentifier",
+                "printedName": "missingApplicationIdentifier",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(ICReadKit.Availability.Reason.Type) -> ICReadKit.Availability.Reason",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Reason",
+                        "printedName": "ICReadKit.Availability.Reason",
+                        "usr": "s:9ICReadKit12AvailabilityO6ReasonO"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Metatype",
+                        "printedName": "ICReadKit.Availability.Reason.Type",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Reason",
+                            "printedName": "ICReadKit.Availability.Reason",
+                            "usr": "s:9ICReadKit12AvailabilityO6ReasonO"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "declKind": "EnumElement",
+                "usr": "s:9ICReadKit12AvailabilityO6ReasonO28missingApplicationIdentifieryA2EmF",
+                "mangledName": "$s9ICReadKit12AvailabilityO6ReasonO28missingApplicationIdentifieryA2EmF",
+                "moduleName": "ICReadKit"
+              },
+              {
+                "kind": "Function",
+                "name": "==",
+                "printedName": "==(_:_:)",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Bool",
+                    "printedName": "Swift.Bool",
+                    "usr": "s:Sb"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Reason",
+                    "printedName": "ICReadKit.Availability.Reason",
+                    "usr": "s:9ICReadKit12AvailabilityO6ReasonO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Reason",
+                    "printedName": "ICReadKit.Availability.Reason",
+                    "usr": "s:9ICReadKit12AvailabilityO6ReasonO"
+                  }
+                ],
+                "declKind": "Func",
+                "usr": "s:9ICReadKit12AvailabilityO6ReasonO2eeoiySbAE_AEtFZ",
+                "mangledName": "$s9ICReadKit12AvailabilityO6ReasonO2eeoiySbAE_AEtFZ",
+                "moduleName": "ICReadKit",
+                "static": true,
+                "funcSelfKind": "NonMutating"
+              },
+              {
+                "kind": "Function",
+                "name": "hash",
+                "printedName": "hash(into:)",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Hasher",
+                    "printedName": "Swift.Hasher",
+                    "paramValueOwnership": "InOut",
+                    "usr": "s:s6HasherV"
+                  }
+                ],
+                "declKind": "Func",
+                "usr": "s:9ICReadKit12AvailabilityO6ReasonO4hash4intoys6HasherVz_tF",
+                "mangledName": "$s9ICReadKit12AvailabilityO6ReasonO4hash4intoys6HasherVz_tF",
+                "moduleName": "ICReadKit",
+                "funcSelfKind": "NonMutating"
+              },
+              {
+                "kind": "Var",
+                "name": "hashValue",
+                "printedName": "hashValue",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "declKind": "Var",
+                "usr": "s:9ICReadKit12AvailabilityO6ReasonO9hashValueSivp",
+                "mangledName": "$s9ICReadKit12AvailabilityO6ReasonO9hashValueSivp",
+                "moduleName": "ICReadKit",
+                "accessors": [
+                  {
+                    "kind": "Accessor",
+                    "name": "Get",
+                    "printedName": "Get()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Int",
+                        "printedName": "Swift.Int",
+                        "usr": "s:Si"
+                      }
+                    ],
+                    "declKind": "Accessor",
+                    "usr": "s:9ICReadKit12AvailabilityO6ReasonO9hashValueSivg",
+                    "mangledName": "$s9ICReadKit12AvailabilityO6ReasonO9hashValueSivg",
+                    "moduleName": "ICReadKit",
+                    "accessorKind": "get"
+                  }
+                ]
+              }
+            ],
+            "declKind": "Enum",
+            "usr": "s:9ICReadKit12AvailabilityO6ReasonO",
+            "mangledName": "$s9ICReadKit12AvailabilityO6ReasonO",
+            "moduleName": "ICReadKit",
+            "conformances": [
+              {
+                "kind": "Conformance",
+                "name": "Copyable",
+                "printedName": "Copyable",
+                "usr": "s:s8CopyableP",
+                "mangledName": "$ss8CopyableP"
+              },
+              {
+                "kind": "Conformance",
+                "name": "Equatable",
+                "printedName": "Equatable",
+                "usr": "s:SQ",
+                "mangledName": "$sSQ"
+              },
+              {
+                "kind": "Conformance",
+                "name": "Escapable",
+                "printedName": "Escapable",
+                "usr": "s:s9EscapableP",
+                "mangledName": "$ss9EscapableP"
+              },
+              {
+                "kind": "Conformance",
+                "name": "Hashable",
+                "printedName": "Hashable",
+                "usr": "s:SH",
+                "mangledName": "$sSH"
+              },
+              {
+                "kind": "Conformance",
+                "name": "Sendable",
+                "printedName": "Sendable",
+                "usr": "s:s8SendableP",
+                "mangledName": "$ss8SendableP"
+              },
+              {
+                "kind": "Conformance",
+                "name": "SendableMetatype",
+                "printedName": "SendableMetatype",
+                "usr": "s:s16SendableMetatypeP",
+                "mangledName": "$ss16SendableMetatypeP"
+              }
+            ]
+          },
+          {
+            "kind": "Function",
+            "name": "==",
+            "printedName": "==(_:_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Availability",
+                "printedName": "ICReadKit.Availability",
+                "usr": "s:9ICReadKit12AvailabilityO"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Availability",
+                "printedName": "ICReadKit.Availability",
+                "usr": "s:9ICReadKit12AvailabilityO"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:9ICReadKit12AvailabilityO2eeoiySbAC_ACtFZ",
+            "mangledName": "$s9ICReadKit12AvailabilityO2eeoiySbAC_ACtFZ",
+            "moduleName": "ICReadKit",
+            "static": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Enum",
+        "usr": "s:9ICReadKit12AvailabilityO",
+        "mangledName": "$s9ICReadKit12AvailabilityO",
+        "moduleName": "ICReadKit",
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "SendableMetatype",
+            "printedName": "SendableMetatype",
+            "usr": "s:s16SendableMetatypeP",
+            "mangledName": "$ss16SendableMetatypeP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "CardReadError",
+        "printedName": "CardReadError",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "unavailable",
+            "printedName": "unavailable",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ICReadKit.CardReadError.Type) -> (ICReadKit.Availability.Reason) -> ICReadKit.CardReadError",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(ICReadKit.Availability.Reason) -> ICReadKit.CardReadError",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "CardReadError",
+                        "printedName": "ICReadKit.CardReadError",
+                        "usr": "s:9ICReadKit13CardReadErrorO"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Reason",
+                        "printedName": "ICReadKit.Availability.Reason",
+                        "usr": "s:9ICReadKit12AvailabilityO6ReasonO"
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ICReadKit.CardReadError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "CardReadError",
+                        "printedName": "ICReadKit.CardReadError",
+                        "usr": "s:9ICReadKit13CardReadErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:9ICReadKit13CardReadErrorO11unavailableyAcA12AvailabilityO6ReasonOcACmF",
+            "mangledName": "$s9ICReadKit13CardReadErrorO11unavailableyAcA12AvailabilityO6ReasonOcACmF",
+            "moduleName": "ICReadKit"
+          },
+          {
+            "kind": "Var",
+            "name": "cancelled",
+            "printedName": "cancelled",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ICReadKit.CardReadError.Type) -> ICReadKit.CardReadError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "CardReadError",
+                    "printedName": "ICReadKit.CardReadError",
+                    "usr": "s:9ICReadKit13CardReadErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ICReadKit.CardReadError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "CardReadError",
+                        "printedName": "ICReadKit.CardReadError",
+                        "usr": "s:9ICReadKit13CardReadErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:9ICReadKit13CardReadErrorO9cancelledyA2CmF",
+            "mangledName": "$s9ICReadKit13CardReadErrorO9cancelledyA2CmF",
+            "moduleName": "ICReadKit"
+          },
+          {
+            "kind": "Var",
+            "name": "timeout",
+            "printedName": "timeout",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ICReadKit.CardReadError.Type) -> ICReadKit.CardReadError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "CardReadError",
+                    "printedName": "ICReadKit.CardReadError",
+                    "usr": "s:9ICReadKit13CardReadErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ICReadKit.CardReadError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "CardReadError",
+                        "printedName": "ICReadKit.CardReadError",
+                        "usr": "s:9ICReadKit13CardReadErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:9ICReadKit13CardReadErrorO7timeoutyA2CmF",
+            "mangledName": "$s9ICReadKit13CardReadErrorO7timeoutyA2CmF",
+            "moduleName": "ICReadKit"
+          },
+          {
+            "kind": "Var",
+            "name": "connectionLost",
+            "printedName": "connectionLost",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ICReadKit.CardReadError.Type) -> ICReadKit.CardReadError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "CardReadError",
+                    "printedName": "ICReadKit.CardReadError",
+                    "usr": "s:9ICReadKit13CardReadErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ICReadKit.CardReadError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "CardReadError",
+                        "printedName": "ICReadKit.CardReadError",
+                        "usr": "s:9ICReadKit13CardReadErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:9ICReadKit13CardReadErrorO14connectionLostyA2CmF",
+            "mangledName": "$s9ICReadKit13CardReadErrorO14connectionLostyA2CmF",
+            "moduleName": "ICReadKit"
+          },
+          {
+            "kind": "Var",
+            "name": "unsupportedCard",
+            "printedName": "unsupportedCard",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ICReadKit.CardReadError.Type) -> ICReadKit.CardReadError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "CardReadError",
+                    "printedName": "ICReadKit.CardReadError",
+                    "usr": "s:9ICReadKit13CardReadErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ICReadKit.CardReadError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "CardReadError",
+                        "printedName": "ICReadKit.CardReadError",
+                        "usr": "s:9ICReadKit13CardReadErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:9ICReadKit13CardReadErrorO011unsupportedC0yA2CmF",
+            "mangledName": "$s9ICReadKit13CardReadErrorO011unsupportedC0yA2CmF",
+            "moduleName": "ICReadKit"
+          },
+          {
+            "kind": "Var",
+            "name": "cardRejected",
+            "printedName": "cardRejected",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ICReadKit.CardReadError.Type) -> (Swift.UInt16) -> ICReadKit.CardReadError",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(Swift.UInt16) -> ICReadKit.CardReadError",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "CardReadError",
+                        "printedName": "ICReadKit.CardReadError",
+                        "usr": "s:9ICReadKit13CardReadErrorO"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Tuple",
+                        "printedName": "(statusWord: Swift.UInt16)",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "UInt16",
+                            "printedName": "Swift.UInt16",
+                            "usr": "s:s6UInt16V"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ICReadKit.CardReadError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "CardReadError",
+                        "printedName": "ICReadKit.CardReadError",
+                        "usr": "s:9ICReadKit13CardReadErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:9ICReadKit13CardReadErrorO12cardRejectedyACs6UInt16V_tcACmF",
+            "mangledName": "$s9ICReadKit13CardReadErrorO12cardRejectedyACs6UInt16V_tcACmF",
+            "moduleName": "ICReadKit"
+          },
+          {
+            "kind": "Var",
+            "name": "malformedCertificate",
+            "printedName": "malformedCertificate",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ICReadKit.CardReadError.Type) -> ICReadKit.CardReadError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "CardReadError",
+                    "printedName": "ICReadKit.CardReadError",
+                    "usr": "s:9ICReadKit13CardReadErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ICReadKit.CardReadError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "CardReadError",
+                        "printedName": "ICReadKit.CardReadError",
+                        "usr": "s:9ICReadKit13CardReadErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:9ICReadKit13CardReadErrorO20malformedCertificateyA2CmF",
+            "mangledName": "$s9ICReadKit13CardReadErrorO20malformedCertificateyA2CmF",
+            "moduleName": "ICReadKit"
+          },
+          {
+            "kind": "Var",
+            "name": "system",
+            "printedName": "system",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ICReadKit.CardReadError.Type) -> (Swift.Int) -> ICReadKit.CardReadError",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(Swift.Int) -> ICReadKit.CardReadError",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "CardReadError",
+                        "printedName": "ICReadKit.CardReadError",
+                        "usr": "s:9ICReadKit13CardReadErrorO"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Tuple",
+                        "printedName": "(code: Swift.Int)",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Int",
+                            "printedName": "Swift.Int",
+                            "usr": "s:Si"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ICReadKit.CardReadError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "CardReadError",
+                        "printedName": "ICReadKit.CardReadError",
+                        "usr": "s:9ICReadKit13CardReadErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:9ICReadKit13CardReadErrorO6systemyACSi_tcACmF",
+            "mangledName": "$s9ICReadKit13CardReadErrorO6systemyACSi_tcACmF",
+            "moduleName": "ICReadKit"
+          },
+          {
+            "kind": "Function",
+            "name": "==",
+            "printedName": "==(_:_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "CardReadError",
+                "printedName": "ICReadKit.CardReadError",
+                "usr": "s:9ICReadKit13CardReadErrorO"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "CardReadError",
+                "printedName": "ICReadKit.CardReadError",
+                "usr": "s:9ICReadKit13CardReadErrorO"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:9ICReadKit13CardReadErrorO2eeoiySbAC_ACtFZ",
+            "mangledName": "$s9ICReadKit13CardReadErrorO2eeoiySbAC_ACtFZ",
+            "moduleName": "ICReadKit",
+            "static": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Enum",
+        "usr": "s:9ICReadKit13CardReadErrorO",
+        "mangledName": "$s9ICReadKit13CardReadErrorO",
+        "moduleName": "ICReadKit",
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Error",
+            "printedName": "Error",
+            "usr": "s:s5ErrorP",
+            "mangledName": "$ss5ErrorP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "SendableMetatype",
+            "printedName": "SendableMetatype",
+            "usr": "s:s16SendableMetatypeP",
+            "mangledName": "$ss16SendableMetatypeP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "CardReader",
+        "printedName": "CardReader",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "version",
+            "printedName": "version",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:9ICReadKit10CardReaderV7versionSSvpZ",
+            "mangledName": "$s9ICReadKit10CardReaderV7versionSSvpZ",
+            "moduleName": "ICReadKit",
+            "static": true,
+            "declAttributes": [
+              "HasStorage"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:9ICReadKit10CardReaderV7versionSSvgZ",
+                "mangledName": "$s9ICReadKit10CardReaderV7versionSSvgZ",
+                "moduleName": "ICReadKit",
+                "static": true,
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "TypeDecl",
+            "name": "Source",
+            "printedName": "Source",
+            "children": [
+              {
+                "kind": "Var",
+                "name": "nfc",
+                "printedName": "nfc",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(ICReadKit.CardReader.Source.Type) -> ICReadKit.CardReader.Source",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Source",
+                        "printedName": "ICReadKit.CardReader.Source",
+                        "usr": "s:9ICReadKit10CardReaderV6SourceO"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Metatype",
+                        "printedName": "ICReadKit.CardReader.Source.Type",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Source",
+                            "printedName": "ICReadKit.CardReader.Source",
+                            "usr": "s:9ICReadKit10CardReaderV6SourceO"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "declKind": "EnumElement",
+                "usr": "s:9ICReadKit10CardReaderV6SourceO3nfcyA2EmF",
+                "mangledName": "$s9ICReadKit10CardReaderV6SourceO3nfcyA2EmF",
+                "moduleName": "ICReadKit"
+              },
+              {
+                "kind": "Var",
+                "name": "demo",
+                "printedName": "demo",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(ICReadKit.CardReader.Source.Type) -> (ICReadKit.DemoCard) -> ICReadKit.CardReader.Source",
+                    "children": [
+                      {
+                        "kind": "TypeFunc",
+                        "name": "Function",
+                        "printedName": "(ICReadKit.DemoCard) -> ICReadKit.CardReader.Source",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Source",
+                            "printedName": "ICReadKit.CardReader.Source",
+                            "usr": "s:9ICReadKit10CardReaderV6SourceO"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "DemoCard",
+                            "printedName": "ICReadKit.DemoCard",
+                            "usr": "s:9ICReadKit8DemoCardO"
+                          }
+                        ]
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Metatype",
+                        "printedName": "ICReadKit.CardReader.Source.Type",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Source",
+                            "printedName": "ICReadKit.CardReader.Source",
+                            "usr": "s:9ICReadKit10CardReaderV6SourceO"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "declKind": "EnumElement",
+                "usr": "s:9ICReadKit10CardReaderV6SourceO4demoyAeA04DemoC0OcAEmF",
+                "mangledName": "$s9ICReadKit10CardReaderV6SourceO4demoyAeA04DemoC0OcAEmF",
+                "moduleName": "ICReadKit"
+              },
+              {
+                "kind": "Function",
+                "name": "==",
+                "printedName": "==(_:_:)",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Bool",
+                    "printedName": "Swift.Bool",
+                    "usr": "s:Sb"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Source",
+                    "printedName": "ICReadKit.CardReader.Source",
+                    "usr": "s:9ICReadKit10CardReaderV6SourceO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Source",
+                    "printedName": "ICReadKit.CardReader.Source",
+                    "usr": "s:9ICReadKit10CardReaderV6SourceO"
+                  }
+                ],
+                "declKind": "Func",
+                "usr": "s:9ICReadKit10CardReaderV6SourceO2eeoiySbAE_AEtFZ",
+                "mangledName": "$s9ICReadKit10CardReaderV6SourceO2eeoiySbAE_AEtFZ",
+                "moduleName": "ICReadKit",
+                "static": true,
+                "funcSelfKind": "NonMutating"
+              }
+            ],
+            "declKind": "Enum",
+            "usr": "s:9ICReadKit10CardReaderV6SourceO",
+            "mangledName": "$s9ICReadKit10CardReaderV6SourceO",
+            "moduleName": "ICReadKit",
+            "conformances": [
+              {
+                "kind": "Conformance",
+                "name": "Copyable",
+                "printedName": "Copyable",
+                "usr": "s:s8CopyableP",
+                "mangledName": "$ss8CopyableP"
+              },
+              {
+                "kind": "Conformance",
+                "name": "Equatable",
+                "printedName": "Equatable",
+                "usr": "s:SQ",
+                "mangledName": "$sSQ"
+              },
+              {
+                "kind": "Conformance",
+                "name": "Escapable",
+                "printedName": "Escapable",
+                "usr": "s:s9EscapableP",
+                "mangledName": "$ss9EscapableP"
+              },
+              {
+                "kind": "Conformance",
+                "name": "Sendable",
+                "printedName": "Sendable",
+                "usr": "s:s8SendableP",
+                "mangledName": "$ss8SendableP"
+              },
+              {
+                "kind": "Conformance",
+                "name": "SendableMetatype",
+                "printedName": "SendableMetatype",
+                "usr": "s:s16SendableMetatypeP",
+                "mangledName": "$ss16SendableMetatypeP"
+              }
+            ]
+          },
+          {
+            "kind": "TypeDecl",
+            "name": "Messages",
+            "printedName": "Messages",
+            "children": [
+              {
+                "kind": "Var",
+                "name": "hold",
+                "printedName": "hold",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Var",
+                "usr": "s:9ICReadKit10CardReaderV8MessagesV4holdSSvp",
+                "mangledName": "$s9ICReadKit10CardReaderV8MessagesV4holdSSvp",
+                "moduleName": "ICReadKit",
+                "declAttributes": [
+                  "HasStorage"
+                ],
+                "hasStorage": true,
+                "accessors": [
+                  {
+                    "kind": "Accessor",
+                    "name": "Get",
+                    "printedName": "Get()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "declKind": "Accessor",
+                    "usr": "s:9ICReadKit10CardReaderV8MessagesV4holdSSvg",
+                    "mangledName": "$s9ICReadKit10CardReaderV8MessagesV4holdSSvg",
+                    "moduleName": "ICReadKit",
+                    "implicit": true,
+                    "accessorKind": "get"
+                  },
+                  {
+                    "kind": "Accessor",
+                    "name": "Set",
+                    "printedName": "Set()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Void",
+                        "printedName": "()"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "declKind": "Accessor",
+                    "usr": "s:9ICReadKit10CardReaderV8MessagesV4holdSSvs",
+                    "mangledName": "$s9ICReadKit10CardReaderV8MessagesV4holdSSvs",
+                    "moduleName": "ICReadKit",
+                    "implicit": true,
+                    "accessorKind": "set"
+                  }
+                ]
+              },
+              {
+                "kind": "Var",
+                "name": "reading",
+                "printedName": "reading",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Var",
+                "usr": "s:9ICReadKit10CardReaderV8MessagesV7readingSSvp",
+                "mangledName": "$s9ICReadKit10CardReaderV8MessagesV7readingSSvp",
+                "moduleName": "ICReadKit",
+                "declAttributes": [
+                  "HasStorage"
+                ],
+                "hasStorage": true,
+                "accessors": [
+                  {
+                    "kind": "Accessor",
+                    "name": "Get",
+                    "printedName": "Get()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "declKind": "Accessor",
+                    "usr": "s:9ICReadKit10CardReaderV8MessagesV7readingSSvg",
+                    "mangledName": "$s9ICReadKit10CardReaderV8MessagesV7readingSSvg",
+                    "moduleName": "ICReadKit",
+                    "implicit": true,
+                    "accessorKind": "get"
+                  },
+                  {
+                    "kind": "Accessor",
+                    "name": "Set",
+                    "printedName": "Set()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Void",
+                        "printedName": "()"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "declKind": "Accessor",
+                    "usr": "s:9ICReadKit10CardReaderV8MessagesV7readingSSvs",
+                    "mangledName": "$s9ICReadKit10CardReaderV8MessagesV7readingSSvs",
+                    "moduleName": "ICReadKit",
+                    "implicit": true,
+                    "accessorKind": "set"
+                  }
+                ]
+              },
+              {
+                "kind": "Var",
+                "name": "done",
+                "printedName": "done",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Var",
+                "usr": "s:9ICReadKit10CardReaderV8MessagesV4doneSSvp",
+                "mangledName": "$s9ICReadKit10CardReaderV8MessagesV4doneSSvp",
+                "moduleName": "ICReadKit",
+                "declAttributes": [
+                  "HasStorage"
+                ],
+                "hasStorage": true,
+                "accessors": [
+                  {
+                    "kind": "Accessor",
+                    "name": "Get",
+                    "printedName": "Get()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "declKind": "Accessor",
+                    "usr": "s:9ICReadKit10CardReaderV8MessagesV4doneSSvg",
+                    "mangledName": "$s9ICReadKit10CardReaderV8MessagesV4doneSSvg",
+                    "moduleName": "ICReadKit",
+                    "implicit": true,
+                    "accessorKind": "get"
+                  },
+                  {
+                    "kind": "Accessor",
+                    "name": "Set",
+                    "printedName": "Set()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Void",
+                        "printedName": "()"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "declKind": "Accessor",
+                    "usr": "s:9ICReadKit10CardReaderV8MessagesV4doneSSvs",
+                    "mangledName": "$s9ICReadKit10CardReaderV8MessagesV4doneSSvs",
+                    "moduleName": "ICReadKit",
+                    "implicit": true,
+                    "accessorKind": "set"
+                  }
+                ]
+              },
+              {
+                "kind": "Var",
+                "name": "multipleCards",
+                "printedName": "multipleCards",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Var",
+                "usr": "s:9ICReadKit10CardReaderV8MessagesV13multipleCardsSSvp",
+                "mangledName": "$s9ICReadKit10CardReaderV8MessagesV13multipleCardsSSvp",
+                "moduleName": "ICReadKit",
+                "declAttributes": [
+                  "HasStorage"
+                ],
+                "hasStorage": true,
+                "accessors": [
+                  {
+                    "kind": "Accessor",
+                    "name": "Get",
+                    "printedName": "Get()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "declKind": "Accessor",
+                    "usr": "s:9ICReadKit10CardReaderV8MessagesV13multipleCardsSSvg",
+                    "mangledName": "$s9ICReadKit10CardReaderV8MessagesV13multipleCardsSSvg",
+                    "moduleName": "ICReadKit",
+                    "implicit": true,
+                    "accessorKind": "get"
+                  },
+                  {
+                    "kind": "Accessor",
+                    "name": "Set",
+                    "printedName": "Set()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Void",
+                        "printedName": "()"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "declKind": "Accessor",
+                    "usr": "s:9ICReadKit10CardReaderV8MessagesV13multipleCardsSSvs",
+                    "mangledName": "$s9ICReadKit10CardReaderV8MessagesV13multipleCardsSSvs",
+                    "moduleName": "ICReadKit",
+                    "implicit": true,
+                    "accessorKind": "set"
+                  }
+                ]
+              },
+              {
+                "kind": "Var",
+                "name": "unsupportedCard",
+                "printedName": "unsupportedCard",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Var",
+                "usr": "s:9ICReadKit10CardReaderV8MessagesV011unsupportedC0SSvp",
+                "mangledName": "$s9ICReadKit10CardReaderV8MessagesV011unsupportedC0SSvp",
+                "moduleName": "ICReadKit",
+                "declAttributes": [
+                  "HasStorage"
+                ],
+                "hasStorage": true,
+                "accessors": [
+                  {
+                    "kind": "Accessor",
+                    "name": "Get",
+                    "printedName": "Get()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "declKind": "Accessor",
+                    "usr": "s:9ICReadKit10CardReaderV8MessagesV011unsupportedC0SSvg",
+                    "mangledName": "$s9ICReadKit10CardReaderV8MessagesV011unsupportedC0SSvg",
+                    "moduleName": "ICReadKit",
+                    "implicit": true,
+                    "accessorKind": "get"
+                  },
+                  {
+                    "kind": "Accessor",
+                    "name": "Set",
+                    "printedName": "Set()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Void",
+                        "printedName": "()"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "declKind": "Accessor",
+                    "usr": "s:9ICReadKit10CardReaderV8MessagesV011unsupportedC0SSvs",
+                    "mangledName": "$s9ICReadKit10CardReaderV8MessagesV011unsupportedC0SSvs",
+                    "moduleName": "ICReadKit",
+                    "implicit": true,
+                    "accessorKind": "set"
+                  }
+                ]
+              },
+              {
+                "kind": "Var",
+                "name": "failed",
+                "printedName": "failed",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Var",
+                "usr": "s:9ICReadKit10CardReaderV8MessagesV6failedSSvp",
+                "mangledName": "$s9ICReadKit10CardReaderV8MessagesV6failedSSvp",
+                "moduleName": "ICReadKit",
+                "declAttributes": [
+                  "HasStorage"
+                ],
+                "hasStorage": true,
+                "accessors": [
+                  {
+                    "kind": "Accessor",
+                    "name": "Get",
+                    "printedName": "Get()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "declKind": "Accessor",
+                    "usr": "s:9ICReadKit10CardReaderV8MessagesV6failedSSvg",
+                    "mangledName": "$s9ICReadKit10CardReaderV8MessagesV6failedSSvg",
+                    "moduleName": "ICReadKit",
+                    "implicit": true,
+                    "accessorKind": "get"
+                  },
+                  {
+                    "kind": "Accessor",
+                    "name": "Set",
+                    "printedName": "Set()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Void",
+                        "printedName": "()"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ],
+                    "declKind": "Accessor",
+                    "usr": "s:9ICReadKit10CardReaderV8MessagesV6failedSSvs",
+                    "mangledName": "$s9ICReadKit10CardReaderV8MessagesV6failedSSvs",
+                    "moduleName": "ICReadKit",
+                    "implicit": true,
+                    "accessorKind": "set"
+                  }
+                ]
+              },
+              {
+                "kind": "Constructor",
+                "name": "init",
+                "printedName": "init(hold:reading:done:multipleCards:unsupportedCard:failed:)",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Messages",
+                    "printedName": "ICReadKit.CardReader.Messages",
+                    "usr": "s:9ICReadKit10CardReaderV8MessagesV"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "hasDefaultArg": true,
+                    "usr": "s:SS"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "hasDefaultArg": true,
+                    "usr": "s:SS"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "hasDefaultArg": true,
+                    "usr": "s:SS"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "hasDefaultArg": true,
+                    "usr": "s:SS"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "hasDefaultArg": true,
+                    "usr": "s:SS"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "hasDefaultArg": true,
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Constructor",
+                "usr": "s:9ICReadKit10CardReaderV8MessagesV4hold7reading4done13multipleCards011unsupportedC06failedAESS_S5Stcfc",
+                "mangledName": "$s9ICReadKit10CardReaderV8MessagesV4hold7reading4done13multipleCards011unsupportedC06failedAESS_S5Stcfc",
+                "moduleName": "ICReadKit",
+                "init_kind": "Designated"
+              },
+              {
+                "kind": "Function",
+                "name": "==",
+                "printedName": "==(_:_:)",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Bool",
+                    "printedName": "Swift.Bool",
+                    "usr": "s:Sb"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Messages",
+                    "printedName": "ICReadKit.CardReader.Messages",
+                    "usr": "s:9ICReadKit10CardReaderV8MessagesV"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Messages",
+                    "printedName": "ICReadKit.CardReader.Messages",
+                    "usr": "s:9ICReadKit10CardReaderV8MessagesV"
+                  }
+                ],
+                "declKind": "Func",
+                "usr": "s:9ICReadKit10CardReaderV8MessagesV2eeoiySbAE_AEtFZ",
+                "mangledName": "$s9ICReadKit10CardReaderV8MessagesV2eeoiySbAE_AEtFZ",
+                "moduleName": "ICReadKit",
+                "static": true,
+                "funcSelfKind": "NonMutating"
+              }
+            ],
+            "declKind": "Struct",
+            "usr": "s:9ICReadKit10CardReaderV8MessagesV",
+            "mangledName": "$s9ICReadKit10CardReaderV8MessagesV",
+            "moduleName": "ICReadKit",
+            "conformances": [
+              {
+                "kind": "Conformance",
+                "name": "Copyable",
+                "printedName": "Copyable",
+                "usr": "s:s8CopyableP",
+                "mangledName": "$ss8CopyableP"
+              },
+              {
+                "kind": "Conformance",
+                "name": "Equatable",
+                "printedName": "Equatable",
+                "usr": "s:SQ",
+                "mangledName": "$sSQ"
+              },
+              {
+                "kind": "Conformance",
+                "name": "Escapable",
+                "printedName": "Escapable",
+                "usr": "s:s9EscapableP",
+                "mangledName": "$ss9EscapableP"
+              },
+              {
+                "kind": "Conformance",
+                "name": "Sendable",
+                "printedName": "Sendable",
+                "usr": "s:s8SendableP",
+                "mangledName": "$ss8SendableP"
+              },
+              {
+                "kind": "Conformance",
+                "name": "SendableMetatype",
+                "printedName": "SendableMetatype",
+                "usr": "s:s16SendableMetatypeP",
+                "mangledName": "$ss16SendableMetatypeP"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "source",
+            "printedName": "source",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Source",
+                "printedName": "ICReadKit.CardReader.Source",
+                "usr": "s:9ICReadKit10CardReaderV6SourceO"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:9ICReadKit10CardReaderV6sourceAC6SourceOvp",
+            "mangledName": "$s9ICReadKit10CardReaderV6sourceAC6SourceOvp",
+            "moduleName": "ICReadKit",
+            "declAttributes": [
+              "HasStorage"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Source",
+                    "printedName": "ICReadKit.CardReader.Source",
+                    "usr": "s:9ICReadKit10CardReaderV6SourceO"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:9ICReadKit10CardReaderV6sourceAC6SourceOvg",
+                "mangledName": "$s9ICReadKit10CardReaderV6sourceAC6SourceOvg",
+                "moduleName": "ICReadKit",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "messages",
+            "printedName": "messages",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Messages",
+                "printedName": "ICReadKit.CardReader.Messages",
+                "usr": "s:9ICReadKit10CardReaderV8MessagesV"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:9ICReadKit10CardReaderV8messagesAC8MessagesVvp",
+            "mangledName": "$s9ICReadKit10CardReaderV8messagesAC8MessagesVvp",
+            "moduleName": "ICReadKit",
+            "declAttributes": [
+              "HasStorage"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Messages",
+                    "printedName": "ICReadKit.CardReader.Messages",
+                    "usr": "s:9ICReadKit10CardReaderV8MessagesV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:9ICReadKit10CardReaderV8messagesAC8MessagesVvg",
+                "mangledName": "$s9ICReadKit10CardReaderV8messagesAC8MessagesVvg",
+                "moduleName": "ICReadKit",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(source:messages:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CardReader",
+                "printedName": "ICReadKit.CardReader",
+                "usr": "s:9ICReadKit10CardReaderV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Source",
+                "printedName": "ICReadKit.CardReader.Source",
+                "hasDefaultArg": true,
+                "usr": "s:9ICReadKit10CardReaderV6SourceO"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Messages",
+                "printedName": "ICReadKit.CardReader.Messages",
+                "hasDefaultArg": true,
+                "usr": "s:9ICReadKit10CardReaderV8MessagesV"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:9ICReadKit10CardReaderV6source8messagesA2C6SourceO_AC8MessagesVtcfc",
+            "mangledName": "$s9ICReadKit10CardReaderV6source8messagesA2C6SourceO_AC8MessagesVtcfc",
+            "moduleName": "ICReadKit",
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Function",
+            "name": "availability",
+            "printedName": "availability(bundle:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Availability",
+                "printedName": "ICReadKit.Availability",
+                "usr": "s:9ICReadKit12AvailabilityO"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Bundle",
+                "printedName": "Foundation.Bundle",
+                "hasDefaultArg": true,
+                "usr": "c:objc(cs)NSBundle"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:9ICReadKit10CardReaderV12availability6bundleAA12AvailabilityOSo8NSBundleC_tF",
+            "mangledName": "$s9ICReadKit10CardReaderV12availability6bundleAA12AvailabilityOSo8NSBundleC_tF",
+            "moduleName": "ICReadKit",
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "readCertificateSummary",
+            "printedName": "readCertificateSummary()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CertificateSummary",
+                "printedName": "ICReadKit.CertificateSummary",
+                "usr": "s:9ICReadKit18CertificateSummaryV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:9ICReadKit10CardReaderV22readCertificateSummaryAA0fG0VyYaAA0C9ReadErrorOYKF",
+            "mangledName": "$s9ICReadKit10CardReaderV22readCertificateSummaryAA0fG0VyYaAA0C9ReadErrorOYKF",
+            "moduleName": "ICReadKit",
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Struct",
+        "usr": "s:9ICReadKit10CardReaderV",
+        "mangledName": "$s9ICReadKit10CardReaderV",
+        "moduleName": "ICReadKit",
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "SendableMetatype",
+            "printedName": "SendableMetatype",
+            "usr": "s:s16SendableMetatypeP",
+            "mangledName": "$ss16SendableMetatypeP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "CertificateSummary",
+        "printedName": "CertificateSummary",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "issuer",
+            "printedName": "issuer",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:9ICReadKit18CertificateSummaryV6issuerSSvp",
+            "mangledName": "$s9ICReadKit18CertificateSummaryV6issuerSSvp",
+            "moduleName": "ICReadKit",
+            "declAttributes": [
+              "HasStorage"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:9ICReadKit18CertificateSummaryV6issuerSSvg",
+                "mangledName": "$s9ICReadKit18CertificateSummaryV6issuerSSvg",
+                "moduleName": "ICReadKit",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "notBefore",
+            "printedName": "notBefore",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Date",
+                "printedName": "Foundation.Date",
+                "usr": "s:10Foundation4DateV"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:9ICReadKit18CertificateSummaryV9notBefore10Foundation4DateVvp",
+            "mangledName": "$s9ICReadKit18CertificateSummaryV9notBefore10Foundation4DateVvp",
+            "moduleName": "ICReadKit",
+            "declAttributes": [
+              "HasStorage"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Date",
+                    "printedName": "Foundation.Date",
+                    "usr": "s:10Foundation4DateV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:9ICReadKit18CertificateSummaryV9notBefore10Foundation4DateVvg",
+                "mangledName": "$s9ICReadKit18CertificateSummaryV9notBefore10Foundation4DateVvg",
+                "moduleName": "ICReadKit",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "notAfter",
+            "printedName": "notAfter",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Date",
+                "printedName": "Foundation.Date",
+                "usr": "s:10Foundation4DateV"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:9ICReadKit18CertificateSummaryV8notAfter10Foundation4DateVvp",
+            "mangledName": "$s9ICReadKit18CertificateSummaryV8notAfter10Foundation4DateVvp",
+            "moduleName": "ICReadKit",
+            "declAttributes": [
+              "HasStorage"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Date",
+                    "printedName": "Foundation.Date",
+                    "usr": "s:10Foundation4DateV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:9ICReadKit18CertificateSummaryV8notAfter10Foundation4DateVvg",
+                "mangledName": "$s9ICReadKit18CertificateSummaryV8notAfter10Foundation4DateVvg",
+                "moduleName": "ICReadKit",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(issuer:notBefore:notAfter:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CertificateSummary",
+                "printedName": "ICReadKit.CertificateSummary",
+                "usr": "s:9ICReadKit18CertificateSummaryV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Date",
+                "printedName": "Foundation.Date",
+                "usr": "s:10Foundation4DateV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Date",
+                "printedName": "Foundation.Date",
+                "usr": "s:10Foundation4DateV"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:9ICReadKit18CertificateSummaryV6issuer9notBefore0F5AfterACSS_10Foundation4DateVAItcfc",
+            "mangledName": "$s9ICReadKit18CertificateSummaryV6issuer9notBefore0F5AfterACSS_10Foundation4DateVAItcfc",
+            "moduleName": "ICReadKit",
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "TypeDecl",
+            "name": "Validity",
+            "printedName": "Validity",
+            "children": [
+              {
+                "kind": "Var",
+                "name": "valid",
+                "printedName": "valid",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(ICReadKit.CertificateSummary.Validity.Type) -> ICReadKit.CertificateSummary.Validity",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Validity",
+                        "printedName": "ICReadKit.CertificateSummary.Validity",
+                        "usr": "s:9ICReadKit18CertificateSummaryV8ValidityO"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Metatype",
+                        "printedName": "ICReadKit.CertificateSummary.Validity.Type",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Validity",
+                            "printedName": "ICReadKit.CertificateSummary.Validity",
+                            "usr": "s:9ICReadKit18CertificateSummaryV8ValidityO"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "declKind": "EnumElement",
+                "usr": "s:9ICReadKit18CertificateSummaryV8ValidityO5validyA2EmF",
+                "mangledName": "$s9ICReadKit18CertificateSummaryV8ValidityO5validyA2EmF",
+                "moduleName": "ICReadKit"
+              },
+              {
+                "kind": "Var",
+                "name": "expired",
+                "printedName": "expired",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(ICReadKit.CertificateSummary.Validity.Type) -> ICReadKit.CertificateSummary.Validity",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Validity",
+                        "printedName": "ICReadKit.CertificateSummary.Validity",
+                        "usr": "s:9ICReadKit18CertificateSummaryV8ValidityO"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Metatype",
+                        "printedName": "ICReadKit.CertificateSummary.Validity.Type",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Validity",
+                            "printedName": "ICReadKit.CertificateSummary.Validity",
+                            "usr": "s:9ICReadKit18CertificateSummaryV8ValidityO"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "declKind": "EnumElement",
+                "usr": "s:9ICReadKit18CertificateSummaryV8ValidityO7expiredyA2EmF",
+                "mangledName": "$s9ICReadKit18CertificateSummaryV8ValidityO7expiredyA2EmF",
+                "moduleName": "ICReadKit"
+              },
+              {
+                "kind": "Var",
+                "name": "notYetValid",
+                "printedName": "notYetValid",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(ICReadKit.CertificateSummary.Validity.Type) -> ICReadKit.CertificateSummary.Validity",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Validity",
+                        "printedName": "ICReadKit.CertificateSummary.Validity",
+                        "usr": "s:9ICReadKit18CertificateSummaryV8ValidityO"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Metatype",
+                        "printedName": "ICReadKit.CertificateSummary.Validity.Type",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Validity",
+                            "printedName": "ICReadKit.CertificateSummary.Validity",
+                            "usr": "s:9ICReadKit18CertificateSummaryV8ValidityO"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "declKind": "EnumElement",
+                "usr": "s:9ICReadKit18CertificateSummaryV8ValidityO11notYetValidyA2EmF",
+                "mangledName": "$s9ICReadKit18CertificateSummaryV8ValidityO11notYetValidyA2EmF",
+                "moduleName": "ICReadKit"
+              },
+              {
+                "kind": "Function",
+                "name": "==",
+                "printedName": "==(_:_:)",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Bool",
+                    "printedName": "Swift.Bool",
+                    "usr": "s:Sb"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Validity",
+                    "printedName": "ICReadKit.CertificateSummary.Validity",
+                    "usr": "s:9ICReadKit18CertificateSummaryV8ValidityO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Validity",
+                    "printedName": "ICReadKit.CertificateSummary.Validity",
+                    "usr": "s:9ICReadKit18CertificateSummaryV8ValidityO"
+                  }
+                ],
+                "declKind": "Func",
+                "usr": "s:9ICReadKit18CertificateSummaryV8ValidityO2eeoiySbAE_AEtFZ",
+                "mangledName": "$s9ICReadKit18CertificateSummaryV8ValidityO2eeoiySbAE_AEtFZ",
+                "moduleName": "ICReadKit",
+                "static": true,
+                "funcSelfKind": "NonMutating"
+              },
+              {
+                "kind": "Function",
+                "name": "hash",
+                "printedName": "hash(into:)",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Hasher",
+                    "printedName": "Swift.Hasher",
+                    "paramValueOwnership": "InOut",
+                    "usr": "s:s6HasherV"
+                  }
+                ],
+                "declKind": "Func",
+                "usr": "s:9ICReadKit18CertificateSummaryV8ValidityO4hash4intoys6HasherVz_tF",
+                "mangledName": "$s9ICReadKit18CertificateSummaryV8ValidityO4hash4intoys6HasherVz_tF",
+                "moduleName": "ICReadKit",
+                "funcSelfKind": "NonMutating"
+              },
+              {
+                "kind": "Var",
+                "name": "hashValue",
+                "printedName": "hashValue",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "declKind": "Var",
+                "usr": "s:9ICReadKit18CertificateSummaryV8ValidityO9hashValueSivp",
+                "mangledName": "$s9ICReadKit18CertificateSummaryV8ValidityO9hashValueSivp",
+                "moduleName": "ICReadKit",
+                "accessors": [
+                  {
+                    "kind": "Accessor",
+                    "name": "Get",
+                    "printedName": "Get()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Int",
+                        "printedName": "Swift.Int",
+                        "usr": "s:Si"
+                      }
+                    ],
+                    "declKind": "Accessor",
+                    "usr": "s:9ICReadKit18CertificateSummaryV8ValidityO9hashValueSivg",
+                    "mangledName": "$s9ICReadKit18CertificateSummaryV8ValidityO9hashValueSivg",
+                    "moduleName": "ICReadKit",
+                    "accessorKind": "get"
+                  }
+                ]
+              }
+            ],
+            "declKind": "Enum",
+            "usr": "s:9ICReadKit18CertificateSummaryV8ValidityO",
+            "mangledName": "$s9ICReadKit18CertificateSummaryV8ValidityO",
+            "moduleName": "ICReadKit",
+            "conformances": [
+              {
+                "kind": "Conformance",
+                "name": "Copyable",
+                "printedName": "Copyable",
+                "usr": "s:s8CopyableP",
+                "mangledName": "$ss8CopyableP"
+              },
+              {
+                "kind": "Conformance",
+                "name": "Equatable",
+                "printedName": "Equatable",
+                "usr": "s:SQ",
+                "mangledName": "$sSQ"
+              },
+              {
+                "kind": "Conformance",
+                "name": "Escapable",
+                "printedName": "Escapable",
+                "usr": "s:s9EscapableP",
+                "mangledName": "$ss9EscapableP"
+              },
+              {
+                "kind": "Conformance",
+                "name": "Hashable",
+                "printedName": "Hashable",
+                "usr": "s:SH",
+                "mangledName": "$sSH"
+              },
+              {
+                "kind": "Conformance",
+                "name": "Sendable",
+                "printedName": "Sendable",
+                "usr": "s:s8SendableP",
+                "mangledName": "$ss8SendableP"
+              },
+              {
+                "kind": "Conformance",
+                "name": "SendableMetatype",
+                "printedName": "SendableMetatype",
+                "usr": "s:s16SendableMetatypeP",
+                "mangledName": "$ss16SendableMetatypeP"
+              }
+            ]
+          },
+          {
+            "kind": "Function",
+            "name": "validity",
+            "printedName": "validity(at:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Validity",
+                "printedName": "ICReadKit.CertificateSummary.Validity",
+                "usr": "s:9ICReadKit18CertificateSummaryV8ValidityO"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Date",
+                "printedName": "Foundation.Date",
+                "hasDefaultArg": true,
+                "usr": "s:10Foundation4DateV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:9ICReadKit18CertificateSummaryV8validity2atAC8ValidityO10Foundation4DateV_tF",
+            "mangledName": "$s9ICReadKit18CertificateSummaryV8validity2atAC8ValidityO10Foundation4DateV_tF",
+            "moduleName": "ICReadKit",
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "==",
+            "printedName": "==(_:_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "CertificateSummary",
+                "printedName": "ICReadKit.CertificateSummary",
+                "usr": "s:9ICReadKit18CertificateSummaryV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "CertificateSummary",
+                "printedName": "ICReadKit.CertificateSummary",
+                "usr": "s:9ICReadKit18CertificateSummaryV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:9ICReadKit18CertificateSummaryV2eeoiySbAC_ACtFZ",
+            "mangledName": "$s9ICReadKit18CertificateSummaryV2eeoiySbAC_ACtFZ",
+            "moduleName": "ICReadKit",
+            "static": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Struct",
+        "usr": "s:9ICReadKit18CertificateSummaryV",
+        "mangledName": "$s9ICReadKit18CertificateSummaryV",
+        "moduleName": "ICReadKit",
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "SendableMetatype",
+            "printedName": "SendableMetatype",
+            "usr": "s:s16SendableMetatypeP",
+            "mangledName": "$ss16SendableMetatypeP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "DemoCard",
+        "printedName": "DemoCard",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "valid",
+            "printedName": "valid",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ICReadKit.DemoCard.Type) -> ICReadKit.DemoCard",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "DemoCard",
+                    "printedName": "ICReadKit.DemoCard",
+                    "usr": "s:9ICReadKit8DemoCardO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ICReadKit.DemoCard.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "DemoCard",
+                        "printedName": "ICReadKit.DemoCard",
+                        "usr": "s:9ICReadKit8DemoCardO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:9ICReadKit8DemoCardO5validyA2CmF",
+            "mangledName": "$s9ICReadKit8DemoCardO5validyA2CmF",
+            "moduleName": "ICReadKit"
+          },
+          {
+            "kind": "Var",
+            "name": "expired",
+            "printedName": "expired",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ICReadKit.DemoCard.Type) -> ICReadKit.DemoCard",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "DemoCard",
+                    "printedName": "ICReadKit.DemoCard",
+                    "usr": "s:9ICReadKit8DemoCardO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ICReadKit.DemoCard.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "DemoCard",
+                        "printedName": "ICReadKit.DemoCard",
+                        "usr": "s:9ICReadKit8DemoCardO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:9ICReadKit8DemoCardO7expiredyA2CmF",
+            "mangledName": "$s9ICReadKit8DemoCardO7expiredyA2CmF",
+            "moduleName": "ICReadKit"
+          },
+          {
+            "kind": "Var",
+            "name": "otherCard",
+            "printedName": "otherCard",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ICReadKit.DemoCard.Type) -> ICReadKit.DemoCard",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "DemoCard",
+                    "printedName": "ICReadKit.DemoCard",
+                    "usr": "s:9ICReadKit8DemoCardO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ICReadKit.DemoCard.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "DemoCard",
+                        "printedName": "ICReadKit.DemoCard",
+                        "usr": "s:9ICReadKit8DemoCardO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:9ICReadKit8DemoCardO05otherD0yA2CmF",
+            "mangledName": "$s9ICReadKit8DemoCardO05otherD0yA2CmF",
+            "moduleName": "ICReadKit"
+          },
+          {
+            "kind": "Var",
+            "name": "connectionLost",
+            "printedName": "connectionLost",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(ICReadKit.DemoCard.Type) -> ICReadKit.DemoCard",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "DemoCard",
+                    "printedName": "ICReadKit.DemoCard",
+                    "usr": "s:9ICReadKit8DemoCardO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "ICReadKit.DemoCard.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "DemoCard",
+                        "printedName": "ICReadKit.DemoCard",
+                        "usr": "s:9ICReadKit8DemoCardO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:9ICReadKit8DemoCardO14connectionLostyA2CmF",
+            "mangledName": "$s9ICReadKit8DemoCardO14connectionLostyA2CmF",
+            "moduleName": "ICReadKit"
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(rawValue:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "ICReadKit.DemoCard?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "DemoCard",
+                    "printedName": "ICReadKit.DemoCard",
+                    "usr": "s:9ICReadKit8DemoCardO"
+                  }
+                ],
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:9ICReadKit8DemoCardO8rawValueACSgSS_tcfc",
+            "mangledName": "$s9ICReadKit8DemoCardO8rawValueACSgSS_tcfc",
+            "moduleName": "ICReadKit",
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "TypeAlias",
+            "name": "AllCases",
+            "printedName": "AllCases",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[ICReadKit.DemoCard]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "DemoCard",
+                    "printedName": "ICReadKit.DemoCard",
+                    "usr": "s:9ICReadKit8DemoCardO"
+                  }
+                ],
+                "usr": "s:Sa"
+              }
+            ],
+            "declKind": "TypeAlias",
+            "usr": "s:9ICReadKit8DemoCardO8AllCasesa",
+            "mangledName": "$s9ICReadKit8DemoCardO8AllCasesa",
+            "moduleName": "ICReadKit"
+          },
+          {
+            "kind": "TypeAlias",
+            "name": "RawValue",
+            "printedName": "RawValue",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "TypeAlias",
+            "usr": "s:9ICReadKit8DemoCardO8RawValuea",
+            "mangledName": "$s9ICReadKit8DemoCardO8RawValuea",
+            "moduleName": "ICReadKit"
+          },
+          {
+            "kind": "Var",
+            "name": "allCases",
+            "printedName": "allCases",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[ICReadKit.DemoCard]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "DemoCard",
+                    "printedName": "ICReadKit.DemoCard",
+                    "usr": "s:9ICReadKit8DemoCardO"
+                  }
+                ],
+                "usr": "s:Sa"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:9ICReadKit8DemoCardO8allCasesSayACGvpZ",
+            "mangledName": "$s9ICReadKit8DemoCardO8allCasesSayACGvpZ",
+            "moduleName": "ICReadKit",
+            "static": true,
+            "declAttributes": [
+              "Nonisolated"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Array",
+                    "printedName": "[ICReadKit.DemoCard]",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "DemoCard",
+                        "printedName": "ICReadKit.DemoCard",
+                        "usr": "s:9ICReadKit8DemoCardO"
+                      }
+                    ],
+                    "usr": "s:Sa"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:9ICReadKit8DemoCardO8allCasesSayACGvgZ",
+                "mangledName": "$s9ICReadKit8DemoCardO8allCasesSayACGvgZ",
+                "moduleName": "ICReadKit",
+                "static": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "rawValue",
+            "printedName": "rawValue",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:9ICReadKit8DemoCardO8rawValueSSvp",
+            "mangledName": "$s9ICReadKit8DemoCardO8rawValueSSvp",
+            "moduleName": "ICReadKit",
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:9ICReadKit8DemoCardO8rawValueSSvg",
+                "mangledName": "$s9ICReadKit8DemoCardO8rawValueSSvg",
+                "moduleName": "ICReadKit",
+                "accessorKind": "get"
+              }
+            ]
+          }
+        ],
+        "declKind": "Enum",
+        "usr": "s:9ICReadKit8DemoCardO",
+        "mangledName": "$s9ICReadKit8DemoCardO",
+        "moduleName": "ICReadKit",
+        "enumRawTypeName": "String",
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "CaseIterable",
+            "printedName": "CaseIterable",
+            "children": [
+              {
+                "kind": "TypeWitness",
+                "name": "AllCases",
+                "printedName": "AllCases",
+                "children": [
+                  {
+                    "kind": "TypeNameAlias",
+                    "name": "AllCases",
+                    "printedName": "ICReadKit.DemoCard.AllCases",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Array",
+                        "printedName": "[ICReadKit.DemoCard]",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "DemoCard",
+                            "printedName": "ICReadKit.DemoCard",
+                            "usr": "s:9ICReadKit8DemoCardO"
+                          }
+                        ],
+                        "usr": "s:Sa"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "usr": "s:s12CaseIterableP",
+            "mangledName": "$ss12CaseIterableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          },
+          {
+            "kind": "Conformance",
+            "name": "RawRepresentable",
+            "printedName": "RawRepresentable",
+            "children": [
+              {
+                "kind": "TypeWitness",
+                "name": "RawValue",
+                "printedName": "RawValue",
+                "children": [
+                  {
+                    "kind": "TypeNameAlias",
+                    "name": "RawValue",
+                    "printedName": "ICReadKit.DemoCard.RawValue",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "String",
+                        "printedName": "Swift.String",
+                        "usr": "s:SS"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "usr": "s:SY",
+            "mangledName": "$sSY"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "SendableMetatype",
+            "printedName": "SendableMetatype",
+            "usr": "s:s16SendableMetatypeP",
+            "mangledName": "$ss16SendableMetatypeP"
+          }
+        ]
+      }
+    ],
+    "json_format_version": 8
+  }
+}
