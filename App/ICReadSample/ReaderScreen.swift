@@ -39,9 +39,11 @@ struct ReaderScreen: View {
                 }
 
                 resultSection
+                walletSection
                 measurementSection
             }
             .navigationTitle("IC 証明書リーダー")
+            .task { await model.checkWallet() }
         }
     }
 
@@ -92,6 +94,23 @@ struct ReaderScreen: View {
                     .foregroundStyle(.red)
                     .accessibilityIdentifier("error-message")
             }
+        }
+    }
+
+    private var walletSection: some View {
+        Section {
+            Text(ReaderModel.message(for: model.walletPhase))
+                .foregroundStyle(model.walletPhase == .unavailable ? .secondary : .primary)
+                .accessibilityIdentifier("wallet-status")
+            Button("Wallet で確認") {
+                Task { await model.requestWallet() }
+            }
+            .disabled(model.walletPhase != .ready)
+            .accessibilityIdentifier("wallet-button")
+        } header: {
+            Text("iPhone のマイナンバーカード（Apple Wallet）")
+        } footer: {
+            Text("個人番号は求めません。受け取るのは暗号化されたデータだけで、復号と検証はサーバーで行います。")
         }
     }
 

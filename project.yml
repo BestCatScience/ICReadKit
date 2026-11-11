@@ -8,7 +8,7 @@ settings:
     SWIFT_STRICT_CONCURRENCY: complete
     SWIFT_TREAT_WARNINGS_AS_ERRORS: YES
     DEVELOPMENT_TEAM: GT7P3628ZM
-    MARKETING_VERSION: 0.2.0
+    MARKETING_VERSION: 0.3.0
     CURRENT_PROJECT_VERSION: 1
 targets:
   # The kit as a binary framework, the way a host app receives it.
@@ -58,7 +58,8 @@ targets:
   ICReadKitTests:
     type: bundle.unit-test
     platform: iOS
-    deploymentTarget: "16.0"
+    # The kit supports iOS 16; the tests run on 18 so they can cover the Wallet route too.
+    deploymentTarget: "18.0"
     sources:
       - Tests/ICReadKitTests
     dependencies:

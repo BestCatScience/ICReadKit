@@ -10,7 +10,7 @@ import Foundation
 /// before showing a read button and ``readCertificateSummary()`` when the person taps it.
 public struct CardReader: Sendable {
     /// The kit's version, for support logs. It changes with every public API change.
-    public static let version = "0.2.0"
+    public static let version = "0.3.0"
 
     public enum Source: Equatable, Sendable {
         /// A real card through Core NFC.

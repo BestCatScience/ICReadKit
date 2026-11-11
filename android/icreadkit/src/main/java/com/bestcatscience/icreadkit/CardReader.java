@@ -18,7 +18,7 @@ import java.time.Instant;
  */
 public final class CardReader {
     /** The kit's version, for support logs. Matches the iOS kit. */
-    public static final String VERSION = "0.2.0";
+    public static final String VERSION = "0.3.0";
 
     /** Flags for {@link NfcAdapter#enableReaderMode}: My Number cards are NFC-B, and NDEF probing only slows them. */
     public static final int READER_MODE_FLAGS = NfcAdapter.FLAG_READER_NFC_B | NfcAdapter.FLAG_READER_SKIP_NDEF_CHECK;

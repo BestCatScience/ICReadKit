@@ -1,6 +1,6 @@
 = ICReadKit 組み込み仕様書
 :toc:
-:revnumber: 0.2.0
+:revnumber: 0.3.0
 :revdate: 2026-11-11
 
 この仕様書は、ICReadKit をアプリに組み込む事業者のエンジニア向けです。
@@ -70,6 +70,15 @@ IMPORTANT: 最低対応 OS が iOS 13 以降のアプリで `NDEF` を入れる�
 . 画面を離れるときは `session.cancel()` を呼ぶ。
 
 最低対応は Android 8.0（API 26）。NFC のない端末にもインストールできるよう、サンプルアプリは `android.hardware.nfc` を必須にしていない。
+
+== iPhone のマイナンバーカード（Apple Wallet）の経路
+
+iOS 18 以降で `WalletIDReader` を使うと、Apple Wallet のマイナンバーカードで確認できます。
+
+* 要求できる項目は氏名、住所、生年月日、性別、顔写真、年齢の下限です。個人番号は要求できません。
+* nonce は事業者のサーバーで毎回作り、16〜64 バイトで渡してください。
+* 返るのは暗号化されたデータだけです。復号と検証（発行者の署名、端末の署名、nonce）は事業者のサーバーで行ってください。
+* 利用には Apple の entitlement（Bundle ID ごと）とデジタル庁の機能認証が必要です。
 
 == API
 
@@ -145,6 +154,10 @@ summary.validity()   // .valid / .expired / .notYetValid
 [cols="1,1,4"]
 |===
 |版 |日付 |内容
+
+|0.3.0
+|2026-11-11
+|iPhone のマイナンバーカード（Apple Wallet）の経路 `WalletIDReader` を追加（iOS 18 以降）。個人番号は要求できない
 
 |0.2.0
 |2026-11-11

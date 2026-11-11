@@ -60,3 +60,18 @@ extension ICReadSampleUITests {
         XCTAssertTrue(rate.label.contains("100"))
     }
 }
+
+extension ICReadSampleUITests {
+    func testTheWalletRouteExplainsWhyItIsUnavailableOnTheSimulator() {
+        let app = XCUIApplication()
+        app.launch()
+        let status = app.staticTexts["wallet-status"]
+        let button = app.buttons["wallet-button"]
+        for _ in 0..<6 where !(status.exists && button.exists) { app.swipeUp() }
+        XCTAssertTrue(status.waitForExistence(timeout: 10))
+        let unavailable = NSPredicate(format: "label CONTAINS %@", "使えません")
+        expectation(for: unavailable, evaluatedWith: status)
+        waitForExpectations(timeout: 10)
+        XCTAssertFalse(button.isEnabled)
+    }
+}

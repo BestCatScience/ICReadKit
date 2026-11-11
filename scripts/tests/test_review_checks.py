@@ -36,6 +36,7 @@ class ReviewCheckTests(unittest.TestCase):
             "let task = URLSession.shared.dataTask(with: request)": "通信",
             "CommandAPDU(ins: 0x20, p1: 0, p2: 0x80)": "暗証番号",
             "static func verify(pin: Data) -> CommandAPDU": "暗証番号",
+            "descriptor.addElements([.documentNumber], intentToStore: .willNotStore)": "個人番号",
         }
         for line, reason in cases.items():
             with self.subTest(line=line):

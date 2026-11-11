@@ -1,4 +1,5 @@
 import Foundation
+import PassKit
 import Testing
 @testable import ICReadKit
 
@@ -269,5 +270,89 @@ final class EventLog: @unchecked Sendable {
 
     @Test func theOldInitializerStillWorksWithoutEvents() async throws {
         _ = try await CardReader(source: .demo(.valid)).readCertificateSummary()
+    }
+}
+
+/// Answers Wallet requests from a script and records what it was asked.
+final class ScriptedAuthorizer: IdentityAuthorizing, @unchecked Sendable {
+    private let lock = NSLock()
+    let canAnswer: Bool
+    let answer: Result<Data, any Error>
+    private(set) var asked: [WalletIDRequestSpec] = []
+
+    init(canAnswer: Bool = true, answer: Result<Data, any Error> = .success(Data([0xA1, 0x01]))) {
+        self.canAnswer = canAnswer
+        self.answer = answer
+    }
+
+    func canRequest(_ spec: WalletIDRequestSpec) async -> Bool { canAnswer }
+
+    func request(_ spec: WalletIDRequestSpec) async throws -> Data {
+        lock.withLock { asked.append(spec) }
+        return try answer.get()
+    }
+}
+
+@Suite struct WalletIDTests {
+    let nonce = Data(repeating: 7, count: 32)
+
+    @Test func aRequestCarriesTheServerNonceAndReturnsTheEncryptedResponseUnopened() async throws {
+        let authorizer = ScriptedAuthorizer()
+        let reader = WalletIDReader(merchantIdentifier: "merchant.example", authorizer: authorizer)
+
+        let presentation = try await reader.requestPresentation(of: [.name, .ageAtLeast(18)], nonce: nonce)
+
+        #expect(presentation == WalletIDPresentation(encryptedData: Data([0xA1, 0x01]), nonce: nonce))
+        #expect(authorizer.asked.first?.merchantIdentifier == "merchant.example")
+        #expect(authorizer.asked.first?.nonce == nonce)
+        #expect(authorizer.asked.first?.storeForDays == nil)
+    }
+
+    @Test func badNoncesAndEmptyRequestsStopBeforeWalletOpens() async {
+        let authorizer = ScriptedAuthorizer()
+        let reader = WalletIDReader(merchantIdentifier: "merchant.example", authorizer: authorizer)
+        await #expect(throws: WalletIDError.invalidNonce) { try await reader.requestPresentation(of: [.name], nonce: Data(count: 8)) }
+        await #expect(throws: WalletIDError.invalidNonce) { try await reader.requestPresentation(of: [.name], nonce: Data(count: 65)) }
+        await #expect(throws: WalletIDError.invalidRequest) { try await reader.requestPresentation(of: [], nonce: nonce) }
+        await #expect(throws: WalletIDError.invalidRequest) { try await reader.requestPresentation(of: [.name], nonce: nonce, storeForDays: 0) }
+        #expect(authorizer.asked.isEmpty)
+    }
+
+    @Test func availabilityFollowsWallet() async {
+        #expect(await WalletIDReader(merchantIdentifier: "m", authorizer: ScriptedAuthorizer()).availability(for: [.name]) == .available)
+        #expect(await WalletIDReader(merchantIdentifier: "m", authorizer: ScriptedAuthorizer(canAnswer: false)).availability(for: [.name])
+            == .unavailable(.cannotRequest))
+        #expect(await WalletIDReader(merchantIdentifier: "m", authorizer: ScriptedAuthorizer()).availability(for: []) == .unavailable(.cannotRequest))
+    }
+
+    @Test func passKitErrorsBecomeReasonsAHostAppCanActOn() {
+        let cases: [(Int, WalletIDError)] = [
+            (1, .unavailable(.cannotRequest)), (2, .cancelled), (3, .networkUnavailable), (4, .invalidRequest),
+            (5, .busy), (6, .invalidNonce), (7, .invalidRequest), (8, .regionNotSupported), (0, .system(code: 0)),
+        ]
+        for (code, expected) in cases {
+            #expect(WalletIDReader.map(NSError(domain: PKIdentityErrorDomain, code: code)) == expected)
+        }
+        #expect(WalletIDReader.map(NSError(domain: "Other", code: 9)) == .system(code: 9))
+    }
+
+    @Test func thePassKitRequestAsksTheJapaneseNationalIDCardForOnlyWhatWasNamed() throws {
+        let spec = try WalletIDRequestSpec(elements: [.name, .ageAtLeast(20)], storeForDays: nil, nonce: nonce, merchantIdentifier: "merchant.example")
+        let request = PassKitIdentityAuthorizer.request(for: spec)
+        let descriptor = try #require(request.descriptor as? PKIdentityNationalIDCardDescriptor)
+
+        #expect(descriptor.region == Locale.Region("JP"))
+        #expect(descriptor.elements.count == 3)  // given name, family name, age threshold
+        #expect(request.nonce == nonce)
+        #expect(request.merchantIdentifier == "merchant.example")
+        // PassKit makes a new element object per access, so look intents up with the descriptor's own elements.
+        #expect(descriptor.elements.allSatisfy { String(describing: descriptor.intentToStore(element: $0)!) == String(describing: PKIdentityIntentToStore.willNotStore) })
+    }
+
+    @Test func storingIsDeclaredWhenTheServiceKeepsTheData() throws {
+        let spec = try WalletIDRequestSpec(elements: [.address], storeForDays: 30, nonce: nonce, merchantIdentifier: "m")
+        let descriptor = PassKitIdentityAuthorizer.descriptor(for: spec)
+        let address = try #require(descriptor.elements.first)
+        #expect(String(describing: descriptor.intentToStore(element: address)!) == String(describing: PKIdentityIntentToStore.mayStore(days: 30)))
     }
 }

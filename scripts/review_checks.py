@@ -21,6 +21,8 @@ KIT_RULES = [
     (re.compile(r"\bURLSession\b"), "通信: SDK はネットワークに出ない"),
     (re.compile(r"ins:\s*0x(20|24|2C|2c)\b|\b(verify|changeReferenceData|resetRetryCounter)\s*\("),
      "暗証番号の命令: 間違えるとカードのロックに近づく"),
+    (re.compile(r"\bdocumentNumber(Element)?\b|\.documentNumber\b"),
+     "個人番号の要求: 民間事業者が個人番号を集めてよいのは税・社会保障などの手続きに限られる"),
 ]
 ALLOWED_INSTRUCTIONS = "static let allowed: Set<UInt8> = [select, readBinary]"
 

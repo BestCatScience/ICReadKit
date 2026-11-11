@@ -20,8 +20,8 @@
 | NFC | Core NFC（NFCTagReaderSession、ISO 7816） | 読み取りモード（NfcAdapter、IsoDep、NFC-B） |
 | サンプルアプリ | SwiftUI、Observation | Kotlin、Jetpack Compose |
 | 端末なしの動作 | シミュレーターで自動的にデモカード | NFC のない端末・エミュレーターで自動的にデモカード |
-| 単体テスト | Swift Testing（28 件） | JUnit（21 件） |
-| UI テスト | XCUITest（5 件） | Compose UI テスト（4 件） |
+| 単体テスト | Swift Testing（34 件） | JUnit（21 件） |
+| UI テスト | XCUITest（6 件） | Compose UI テスト（4 件） |
 | E2E | Maestro（共有の 3 シナリオ） | Maestro（同じ 3 シナリオ） |
 | 静的検査 | 公開 API の基準との比較 | Android Lint（最低対応 OS にない API を止める） |
 | 設定 | XcodeGen（チェックサム固定） | Gradle ラッパー（9.0） |
@@ -66,6 +66,25 @@ do {
 } catch { … }
 ```
 
+## iPhone のマイナンバーカード（Apple Wallet）の経路（iOS 18 以降）
+
+IC を NFC で読む経路のほかに、Apple Wallet に入れたマイナンバーカードで確認する経路（`WalletIDReader`）があります。
+
+- 要求できるのは、氏名、住所、生年月日、性別、顔写真、年齢の下限だけです。**個人番号（マイナンバー）を要求する手段はありません。** 民間事業者が個人番号を集めてよいのは税・社会保障などの手続きに限られるためで、セキュリティの検査でも止めています。
+- SDK は Wallet が返す暗号化されたデータ（ISO/IEC 18013-5 の応答）を開けずに、そのまま組み込み先に渡します。復号、発行者の署名、端末の署名、nonce の照合は組み込み先のサーバーで行います。nonce はサーバーが毎回作って渡します。
+- 年齢だけが要るなら `.ageAtLeast(18)` を使い、生年月日は求めません。保存するなら `storeForDays` で日数を示し、Wallet の画面で利用者に伝わるようにします。
+- 実際に使うには、Apple の in-app identity presentment の entitlement（アプリの Bundle ID ごとに申請）と、マイナンバーカードを使う本人確認サービスとしてのデジタル庁の機能認証が要ります。このリポジトリのサンプルには entitlement がないので、実機でも「使えない」と表示されます。要求の組み立てとエラーの変換は単体テストで確かめています。
+- Android は、日本のマイナンバーカードが Android のウォレットにまだ載っていないため、この経路を入れていません。
+
+```swift
+if #available(iOS 18.0, *) {
+    let wallet = WalletIDReader(merchantIdentifier: "merchant.example")
+    guard await wallet.availability(for: [.name, .ageAtLeast(18)]) == .available else { return }
+    let presentation = try await wallet.requestPresentation(of: [.name, .ageAtLeast(18)], nonce: nonceFromServer)
+    try await api.verify(presentation.encryptedData)   // サーバーで復号して検証する
+}
+```
+
 ## 組み込み方（Android）
 
 1. `icreadkit-<版>.aar` を追加します。難読化向けの keep ルールは AAR に入っているので、組み込み先で書き足す必要はありません。
@@ -108,7 +127,7 @@ adapter.enableReaderMode(activity, { tag ->
 | 公開 API の検査（`scripts/check-api.sh`） | iOS の組み込み先を壊す API の変更 |
 | Android Lint | 最低対応 OS にない API の呼び出し（D8 が補えないもの） |
 | リリース版の難読化ビルド | AAR に同梱した keep ルールが、組み込み先の難読化で効くこと |
-| セキュリティの検査（`scripts/review_checks.py`） | 両 OS の SDK での URL の直書き、ログ出力、端末への保存、通信、暗証番号の命令、新しい依存。両 OS の版のずれ |
+| セキュリティの検査（`scripts/review_checks.py`） | 両 OS の SDK での URL の直書き、ログ出力、端末への保存、通信、暗証番号の命令、個人番号の要求、新しい依存。両 OS の版のずれ |
 | Claude Code の hook（`.claude/settings.json`） | 上の検査に触れる編集をその場で拒否し、検査が通るまで作業を終えさせない |
 | 毎週の定期実行と Dependabot | 新しい Xcode・エミュレーター・アクションで壊れたことに、コードを変えなくても気づく |
 
