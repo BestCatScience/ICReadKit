@@ -61,6 +61,16 @@
 IMPORTANT: 最低対応 OS が iOS 13 以降のアプリで `NDEF` を入れると、App Store へのアップロード時に ITMS-90778 で拒否されると報告されています。entitlements はアプリ側の設定のため、SDK から変更できません。
 . 読み取りボタンを表示する前に `CardReader.availability()` を呼び、`.available` のときだけ有効にする。
 
+== 組み込み手順（Android）
+
+. `icreadkit-<版>.aar` を追加する。難読化向けの keep ルールは AAR に含まれる。
+. `CardReader.availability(context)` が `AVAILABLE` のときだけ読み取りを有効にする。`NFC_DISABLED` の場合は NFC の設定画面に案内する。
+. 読み取りの開始時に `startSession()` を呼び、`NfcAdapter.enableReaderMode` に `CardReader.READER_MODE_FLAGS` を渡す。
+. 読み取りモードのコールバックで受け取ったタグを、そのスレッドのまま `session.read(tag)` に渡す。
+. 画面を離れるときは `session.cancel()` を呼ぶ。
+
+最低対応は Android 8.0（API 26）。NFC のない端末にもインストールできるよう、サンプルアプリは `android.hardware.nfc` を必須にしていない。
+
 == API
 
 [source,swift]
@@ -138,7 +148,7 @@ summary.validity()   // .valid / .expired / .notYetValid
 
 |0.2.0
 |2026-11-11
-|計測イベント（`CardReadEvent`）と、イベントを受け取る初期化子を追加。既存の初期化子は変更なし
+|計測イベント（`CardReadEvent`）と、イベントを受け取る初期化子を追加。既存の初期化子は変更なし。Android 版（AAR）を追加
 
 |0.1.0
 |2026-11-11

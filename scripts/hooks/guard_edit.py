@@ -29,6 +29,10 @@ def findings(path: Path, text: str, root: Path) -> list[str]:
     relative = str(path.relative_to(root))
     if relative.startswith("Sources/ICReadKit/") and relative.endswith(".swift"):
         return review_checks.kit_problems(relative, text)
+    if relative.startswith("android/icreadkit/src/main/java/") and relative.endswith(".java"):
+        return review_checks.android_kit_problems(relative, text)
+    if relative == "android/icreadkit/build.gradle.kts":
+        return review_checks.android_manifest_problems(text)
     if relative == "Package.swift":
         return review_checks.manifest_problems(text, "")
     if relative == "project.yml":

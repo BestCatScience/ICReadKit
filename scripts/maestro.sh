@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
-# Builds the sample app for an iPhone simulator, installs it and runs the Maestro flows in maestro/ci.
+# Runs the shared Maestro flows in maestro/ci against the iOS or the Android sample app:
+#   scripts/maestro.sh ios       builds for an iPhone simulator (MAESTRO_DEVICE_ID = simulator UDID)
+#   scripts/maestro.sh android   installs the debug APK (MAESTRO_DEVICE_ID = adb serial, default emulator-5554)
+# Both apps use the same identifiers, so one set of flows checks both platforms.
 # The Maestro CLI is pinned to a version and checksum and cached under build/maestro.
-# MAESTRO_DEVICE_ID picks the simulator; MAESTRO_JUNIT_PATH also writes a JUnit report.
+# MAESTRO_JUNIT_PATH also writes a JUnit report.
 set -euo pipefail
 
 project_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -33,14 +36,28 @@ java_home="${JAVA_HOME:-$(/usr/libexec/java_home -v '17+' 2>/dev/null || true)}"
 [[ -x "$java_home/bin/java" ]] || java_home="/Applications/Android Studio.app/Contents/jbr/Contents/Home"
 [[ -x "$java_home/bin/java" ]] || { echo 'Maestro needs Java 17 or newer.' >&2; exit 1; }
 
-device="${MAESTRO_DEVICE_ID:?Set MAESTRO_DEVICE_ID to an iPhone simulator UDID}"
-xcrun simctl boot "$device" 2>/dev/null || true
-xcrun simctl bootstatus "$device" -b
-
-[[ -d ICReadKit.xcodeproj ]] || bash scripts/generate-project.sh
-xcodebuild build -quiet -project ICReadKit.xcodeproj -scheme ICReadSample \
-  -destination "id=$device" -derivedDataPath build/MaestroDerivedData CODE_SIGNING_ALLOWED=NO
-xcrun simctl install "$device" build/MaestroDerivedData/Build/Products/Debug-iphonesimulator/ICReadSample.app
+platform="${1:-ios}"
+case "$platform" in
+  ios)
+    device="${MAESTRO_DEVICE_ID:?Set MAESTRO_DEVICE_ID to an iPhone simulator UDID}"
+    xcrun simctl boot "$device" 2>/dev/null || true
+    xcrun simctl bootstatus "$device" -b
+    [[ -d ICReadKit.xcodeproj ]] || bash scripts/generate-project.sh
+    xcodebuild build -quiet -project ICReadKit.xcodeproj -scheme ICReadSample \
+      -destination "id=$device" -derivedDataPath build/MaestroDerivedData CODE_SIGNING_ALLOWED=NO
+    xcrun simctl install "$device" build/MaestroDerivedData/Build/Products/Debug-iphonesimulator/ICReadSample.app
+    ;;
+  android)
+    device="${MAESTRO_DEVICE_ID:-emulator-5554}"
+    adb="${ANDROID_HOME:-$HOME/Library/Android/sdk}/platform-tools/adb"
+    (cd android && ./gradlew -q :sample:assembleDebug)
+    "$adb" -s "$device" install -r android/sample/build/outputs/apk/debug/sample-debug.apk
+    ;;
+  *)
+    echo "Usage: scripts/maestro.sh ios|android" >&2
+    exit 2
+    ;;
+esac
 
 report=()
 if [[ -n "${MAESTRO_JUNIT_PATH:-}" ]]; then
@@ -48,4 +65,4 @@ if [[ -n "${MAESTRO_JUNIT_PATH:-}" ]]; then
   report=(--format=junit --output="$MAESTRO_JUNIT_PATH")
 fi
 JAVA_HOME="$java_home" MAESTRO_CLI_NO_ANALYTICS=1 MAESTRO_CLI_ANALYSIS_NOTIFICATION_DISABLED=true \
-  "$maestro_bin" --device="$device" test --test-output-dir="$cache/output" ${report[@]+"${report[@]}"} maestro/ci
+  "$maestro_bin" --device="$device" test --test-output-dir="$cache/output-$platform" ${report[@]+"${report[@]}"} maestro/ci

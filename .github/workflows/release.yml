@@ -1,7 +1,8 @@
 name: Release
 
 # Pushing a tag such as v0.2.0 builds the XCFramework, checks the public API and
-# publishes a GitHub Release with the zip, its SwiftPM checksum and the README.
+# publishes a GitHub Release with the zip, its SwiftPM checksum and the README,
+# then adds the Android AAR built from the same tag.
 on:
   push:
     tags: ['v*']
@@ -50,3 +51,26 @@ jobs:
           NOTES
           gh release create "$TAG" ICReadKit.xcframework.zip ICReadKit.xcframework.zip.checksum ../README.md \
             --title "ICReadKit $TAG" --notes-file notes.md
+
+  android:
+    needs: release
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      TAG: ${{ github.ref_name }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: The tag matches the Android kit's version
+        run: |
+          version="$(sed -n 's/.*public static final String VERSION = "\(.*\)".*/\1/p' android/icreadkit/src/main/java/com/bestcatscience/icreadkit/CardReader.java)"
+          [[ "v$version" == "$TAG" ]] || { echo "CardReader.VERSION is $version but the tag is $TAG" >&2; exit 1; }
+      - name: Test and build the AAR
+        working-directory: android
+        run: |
+          export JAVA_HOME="$JAVA_HOME_17_X64"
+          ./gradlew --no-daemon :icreadkit:testDebugUnitTest :icreadkit:lintRelease :icreadkit:assembleRelease
+      - name: Add the AAR to the release
+        run: |
+          cp android/icreadkit/build/outputs/aar/icreadkit-release.aar "icreadkit-${TAG#v}.aar"
+          gh release upload "$TAG" "icreadkit-${TAG#v}.aar"

@@ -1,6 +1,6 @@
 # ICReadKit
 
-マイナンバーカードの IC チップを NFC で読む、iOS 向け SDK の構成例です。SDK 本体（XCFramework として配る）と、それを組み込むサンプルアプリが入っています。
+マイナンバーカードの IC チップを NFC で読む SDK の構成例です。**iOS（Swift、XCFramework）と Android（Java、AAR）の SDK**と、それぞれを組み込む**サンプルアプリ（SwiftUI と Kotlin・Jetpack Compose）**が入っています。両 OS の SDK は同じ設計、同じ版、同じ識別子で、**1 組の Maestro のシナリオで両 OS の画面を確かめます**。
 
 ## 何を読むか
 
@@ -10,37 +10,49 @@
 - 氏名・住所・生年月日・マイナンバーは読みません。利用者証明用電子証明書にはこれらが入っていません（入っているのは署名用電子証明書で、そちらは暗証番号が要ります）。
 - 証明書のシリアル番号、主体者名、公開鍵、証明書のバイト列そのものも、SDK の外に出しません。
 
+## 両 OS の対応
+
+| | iOS | Android |
+|---|---|---|
+| SDK の言語 | Swift 6（厳密な並行性チェック、型付きの throws） | Java 17 |
+| 配布 | XCFramework（ライブラリの互換を保つビルド）、Swift Package | AAR（組み込み先の難読化向けの keep ルールを同梱） |
+| 最低対応 | iOS 16 | Android 8.0（API 26） |
+| NFC | Core NFC（NFCTagReaderSession、ISO 7816） | 読み取りモード（NfcAdapter、IsoDep、NFC-B） |
+| サンプルアプリ | SwiftUI、Observation | Kotlin、Jetpack Compose |
+| 端末なしの動作 | シミュレーターで自動的にデモカード | NFC のない端末・エミュレーターで自動的にデモカード |
+| 単体テスト | Swift Testing（28 件） | JUnit（21 件） |
+| UI テスト | XCUITest（5 件） | Compose UI テスト（4 件） |
+| E2E | Maestro（共有の 3 シナリオ） | Maestro（同じ 3 シナリオ） |
+| 静的検査 | 公開 API の基準との比較 | Android Lint（最低対応 OS にない API を止める） |
+| 設定 | XcodeGen（チェックサム固定） | Gradle ラッパー（9.0） |
+
 ## 構成
 
 ```
-Sources/ICReadKit/         SDK 本体（依存なし、iOS 16 以降）
-  CardReader.swift         公開の入口。availability() と readCertificateSummary()
-  APDU.swift               命令の組み立て。SELECT と READ BINARY だけ
-  JPKIReader.swift         証明書を分割して読む。カードの応答をエラーに変える
-  DER.swift                証明書の解析に要る最小限の DER
-  CertificateSummary.swift 発行者と有効期間。期限切れは結果であってエラーではない
-  NFCCertificateSession.swift  Core NFC との接続。結果は必ず 1 回だけ返す
-  DemoCard.swift           端末なしで画面を作るための架空のカード
-App/ICReadSample/          組み込む側のサンプルアプリ（iOS 17 以降）
-App/ICReadSampleUITests/   デモカードで全部の結果画面を確かめる UI テスト
-Tests/ICReadKitTests/      単体テスト
-api/ICReadKit.json         公開 API の基準
+Sources/ICReadKit/            iOS の SDK（依存なし）
+App/ICReadSample/             iOS のサンプルアプリ
+App/ICReadSampleUITests/      XCUITest
+Tests/ICReadKitTests/         Swift の単体テスト
+android/icreadkit/            Android の SDK（依存なし）と JUnit のテスト
+android/sample/               Android のサンプルアプリと Compose の UI テスト
+maestro/ci/                   両 OS で共有する E2E のシナリオ
+api/ICReadKit.json            iOS の公開 API の基準
+docs/spec/integration.adoc    事業者向けの組み込み仕様書（AsciiDoc）
+docs/design.md                設計の判断
+scripts/                      生成・ビルド・検査・E2E のスクリプトとその検査
 ```
 
-読み取りの処理は「カードに命令を送る口」を差し替えられる形にしてあり、実機の Core NFC、テスト用の台本、デモカードのどれでも同じ処理が動きます。
+どちらの SDK も、読み取りの処理を「カードに命令を送る口」から切り離してあります。実機の NFC、テスト用の台本、デモカードのどれでも同じ処理が動くので、分割読み出し、カードの拒否、壊れた証明書、途中で離れたカードを、端末なしでテストできます。
 
-## 組み込み方
+## 組み込み方（iOS）
 
 1. `ICReadKit.xcframework` を Embed & Sign で追加するか、Swift Package として追加します。
-2. アプリの Info.plist に次の 2 つを入れます。どちらかが欠けていると `availability()` が理由付きで知らせます。
-   - `NFCReaderUsageDescription`：利用目的の文言
-   - `com.apple.developer.nfc.readersession.iso7816.select-identifiers`：`D392F000260100000001`
-3. entitlements の `com.apple.developer.nfc.readersession.formats` には **`TAG` だけ**を入れます。最低対応 OS が iOS 13 以降のアプリに `NDEF` を入れると、App Store へのアップロードで弾かれると報告されています（ITMS-90778）。entitlements は組み込み先のアプリ側の設定なので、SDK からは直せません。
-4. 読み取りボタンを出す前に `availability()` を確かめ、押されたら `readCertificateSummary()` を呼びます。
+2. Info.plist に `NFCReaderUsageDescription` と、`com.apple.developer.nfc.readersession.iso7816.select-identifiers`（`D392F000260100000001`）を入れます。欠けていると `availability()` が理由付きで知らせます。
+3. entitlements の `com.apple.developer.nfc.readersession.formats` には **`TAG` だけ**を入れます。最低対応 OS が iOS 13 以降のアプリに `NDEF` を入れると、App Store へのアップロードで弾かれると報告されています（ITMS-90778）。entitlements は組み込み先の設定なので、SDK からは直せません。
+4. `availability()` を確かめてから `readCertificateSummary()` を呼びます。公開した列挙型は後でケースを足せるように固定していないので、`switch` には `@unknown default` が要ります。
 
 ```swift
-let reader = CardReader()
-guard reader.availability() == .available else { return }
+let reader = CardReader(onEvent: { event in analytics.send(event) })
 do {
     let summary = try await reader.readCertificateSummary()
     switch summary.validity() {
@@ -51,65 +63,83 @@ do {
     }
 } catch .cancelled {
     // 利用者がシートを閉じた。失敗として扱わない
-} catch {
-    // CardReadError の各ケースに、アプリがすべきことを書いてある
-}
+} catch { … }
 ```
 
-`CardReadError` などの公開した列挙型は、後の版でケースを足せるように固定していません。組み込む側の `switch` には `@unknown default` が要ります。
+## 組み込み方（Android）
 
-| エラー | アプリがすること |
-|---|---|
-| `unavailable` | 理由を表示する。再試行しても直らない |
-| `cancelled` | 何もしない（利用者の意思で閉じた） |
-| `timeout` | もう一度試せるようにする |
-| `connectionLost` | カードを動かさずに当て直すよう伝える |
-| `unsupportedCard` | 別の種類のカード。マイナンバーカードを当てるよう伝える |
-| `cardRejected(statusWord:)` | 状態語はサポート用の記録に残し、利用者には一般的な文言で伝える |
-| `malformedCertificate` | 読めなかったと伝える |
-| `system(code:)` | Core NFC の未対応のエラー。コードを記録する |
+1. `icreadkit-<版>.aar` を追加します。難読化向けの keep ルールは AAR に入っているので、組み込み先で書き足す必要はありません。
+2. `CardReader.availability(context)` が `AVAILABLE` のときだけ読み取りボタンを有効にします。`NFC_DISABLED` なら NFC の設定画面に案内します。
+3. 読み取りを始めるときに `startSession()` を呼び、`NfcAdapter.enableReaderMode` に `CardReader.READER_MODE_FLAGS` を渡します。見つかったタグは、読み取りモードのコールバックのスレッドで `session.read(tag)` に渡します（カードの応答を待つ間ブロックするため、メインスレッドでは呼びません）。
+4. 画面を離れたら `session.cancel()` を呼びます。離脱として計測されます。
 
-システムの読み取りシートに出る文言は `CardReader.Messages` で差し替えられます（既定は日本語）。
+```kotlin
+val reader = CardReader { event -> runOnUiThread { analytics.send(event) } }
+session = reader.startSession()
+adapter.enableReaderMode(activity, { tag ->
+    try { show(session.read(tag)) } catch (e: CardReadException) { show(e.reason) }
+}, CardReader.READER_MODE_FLAGS, null)
+```
 
-## 計測イベント
+## エラーと、組み込み先がすること
 
-`CardReader(onEvent:)` で、読み取りの各段階（開始、カード検出、終了と所要時間）を受け取れます。カードのデータは含まないので、そのまま監視基盤（Datadog など）に送れます。「開始したのに読み取りまで行かなかった割合」が離脱率で、カード検出の有無で「当てられなかった」と「途中で離れた」を分けられます。サンプルアプリはこの集計を画面に出します。
+| iOS | Android | アプリがすること |
+|---|---|---|
+| `unavailable` | `NO_NFC_HARDWARE`、`NFC_DISABLED` | 理由を表示する。無効なら設定へ案内する |
+| `cancelled` | `CANCELLED` | 何もしない（利用者の意思） |
+| `timeout` | （読み取りモードは待ち続ける） | もう一度試せるようにする |
+| `connectionLost` | `CONNECTION_LOST` | カードを動かさずに当て直すよう伝える |
+| `unsupportedCard` | `UNSUPPORTED_CARD` | マイナンバーカードを当てるよう伝える |
+| `cardRejected(statusWord:)` | `CARD_REJECTED`（`getStatusWord()`） | 状態語は問い合わせ用に記録し、利用者には一般的な文言で伝える |
+| `malformedCertificate` | `MALFORMED_CERTIFICATE` | 読めなかったと伝える |
+| `system(code:)` | ― | Core NFC のコードを記録する |
+
+## 計測イベント（離脱率）
+
+両 OS とも、読み取りの各段階（開始、カード検出、終了と所要時間）をイベントで渡します。カードのデータは含まないので、そのまま監視基盤（Datadog など）に送れます。開始したのに読み取りまで行かなかった割合が離脱率で、カード検出の有無で「当てられなかった」と「途中で離れた」を分けられます。サンプルアプリはこの集計を画面に出します。
 
 ## 品質の仕組み
 
 | 仕組み | 何を止めるか |
 |---|---|
-| 単体テスト | 命令のバイト列、分割読み出し、カードの拒否、証明書の解析、設定漏れ、計測イベント |
-| UI テスト（XCUITest） | デモカード 4 通りの結果画面と、離脱率の集計 |
-| Maestro（`maestro/ci`） | 有効・期限切れ・別のカードの 3 本。別のカードの後にもう一度読めることも確かめる |
-| 公開 API の検査（`scripts/check-api.sh`） | 組み込み先を壊す API の変更 |
-| セキュリティの検査（`scripts/review_checks.py`） | URL の直書き、ログ出力、端末への保存、通信、暗証番号の命令、新しい依存 |
+| 単体テスト（両 OS） | 命令のバイト列、分割読み出し、カードの拒否、証明書の解析、設定漏れ、計測イベント、デモカードの識別子の一致 |
+| UI テスト（XCUITest、Compose） | デモカードの結果画面と離脱率の集計 |
+| Maestro（`maestro/ci`、両 OS 共通） | 有効・期限切れ・別のカード。別のカードの後にもう一度読めることも確かめる |
+| 公開 API の検査（`scripts/check-api.sh`） | iOS の組み込み先を壊す API の変更 |
+| Android Lint | 最低対応 OS にない API の呼び出し（D8 が補えないもの） |
+| リリース版の難読化ビルド | AAR に同梱した keep ルールが、組み込み先の難読化で効くこと |
+| セキュリティの検査（`scripts/review_checks.py`） | 両 OS の SDK での URL の直書き、ログ出力、端末への保存、通信、暗証番号の命令、新しい依存。両 OS の版のずれ |
 | Claude Code の hook（`.claude/settings.json`） | 上の検査に触れる編集をその場で拒否し、検査が通るまで作業を終えさせない |
-| 毎週の定期実行と Dependabot | 新しい Xcode やアクションの更新で壊れたことに、コードを変えなくても気づく |
+| 毎週の定期実行と Dependabot | 新しい Xcode・エミュレーター・アクションで壊れたことに、コードを変えなくても気づく |
 
-タグ（例：`v0.2.0`）を push すると、XCFramework の zip、Swift Package Manager 用のチェックサム、README が GitHub Release に出ます。事業者向けの仕様書は `docs/spec/integration.adoc`（AsciiDoc）にあり、変更はプルリクエストでレビューします。
+CI（`.github/workflows/ci.yml`）は、検査を Ubuntu で先に回し、通ったら iOS（macOS）と Android（Ubuntu）のジョブを並行して回します。E2E は macOS とエミュレーターの時間がかかるため、PR では画面に関わる変更のときだけ動き、main・手動・毎週の定期実行では必ず動きます。
+
+タグ（例：`v0.2.0`）を push すると、両 OS の版がタグと一致することを確かめたうえで、XCFramework の zip、Swift Package Manager 用のチェックサム、README、Android の AAR が GitHub Release に出ます。
 
 ## 開発
 
 ```bash
+# iOS
 bash scripts/generate-project.sh        # チェックサム固定の XcodeGen で ICReadKit.xcodeproj を作る
 xcodebuild test -project ICReadKit.xcodeproj -scheme ICReadKit -destination 'platform=iOS Simulator,name=iPhone 17'
 xcodebuild test -project ICReadKit.xcodeproj -scheme ICReadSample -destination 'platform=iOS Simulator,name=iPhone 17'
-bash scripts/build-xcframework.sh       # build/ICReadKit.xcframework を作る
-bash scripts/check-api.sh               # 公開 API が基準から壊れていないか確かめる
-python3 scripts/review_checks.py        # セキュリティの検査
-MAESTRO_DEVICE_ID=<UDID> bash scripts/maestro.sh  # Maestro のフロー（版とチェックサムを固定した CLI を取得する）
+bash scripts/build-xcframework.sh && bash scripts/check-api.sh
+
+# Android（JDK 17 以降）
+cd android && ./gradlew :icreadkit:testDebugUnitTest :icreadkit:lintRelease :sample:assembleRelease
+cd android && ./gradlew :sample:connectedDebugAndroidTest   # エミュレーターが要る
+
+# 両 OS 共通
+python3 scripts/review_checks.py && python3 -m unittest discover -s scripts/tests
+MAESTRO_DEVICE_ID=<シミュレーターの UDID> bash scripts/maestro.sh ios
+MAESTRO_DEVICE_ID=emulator-5554 bash scripts/maestro.sh android
 ```
-
-公開 API を意図して変えるときは `bash scripts/check-api.sh --update` で基準を更新し、何が壊れるかをコミットに書きます。
-
-シミュレーターには NFC がないため、サンプルアプリは自動でデモカード（有効、期限切れ、別の種類のカード、読み取り中に離れる）に切り替わります。実際のカードは iOS 16 以降の iPhone（iPhone 8 以降）の実機で読めます。
 
 ## やっていないこと
 
-- Android 版。
 - 証明書の署名を、地方公共団体情報システム機構の認証局までたどって検証すること。この構成例は有効期間を見るだけです。
 - 暗証番号が要る情報（署名用電子証明書、券面事項入力補助の基本 4 情報、マイナンバー）。
 - 運転免許証や在留カードなど、ほかのカード。
+- 実際のカードでの読み取りの確認（iPhone と Android の実機が要ります）。
 
 カードの仕様は公開資料が少なく、AID とファイルの番号は公開されている技術記事（[マイナンバーカードを APDU で操作する](https://tex2e.github.io/blog/protocol/jpki-mynumbercard-with-apdu)）に基づきます。

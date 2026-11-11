@@ -55,7 +55,7 @@ jobs:
         run: bash scripts/check-api.sh
 
   e2e:
-    name: Maestro E2E with demo cards
+    name: iOS Maestro E2E with demo cards
     needs: review
     runs-on: macos-26
     timeout-minutes: 45
@@ -90,11 +90,63 @@ jobs:
             puts device.fetch("udid")
           ')"
           echo "MAESTRO_DEVICE_ID=$udid" >> "$GITHUB_ENV"
-      - name: Run the Maestro flows
+      - name: Run the shared Maestro flows on iOS
         if: steps.scope.outputs.run == 'true'
         env:
           MAESTRO_JUNIT_PATH: build/maestro/report.xml
-        run: bash scripts/maestro.sh
+        run: bash scripts/maestro.sh ios
       - name: Print the Maestro report
         if: always() && steps.scope.outputs.run == 'true'
         run: cat build/maestro/report.xml || echo 'No Maestro report was written.'
+
+  android:
+    name: Android unit tests, lint and builds
+    needs: review
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Unit tests, lint, the AAR and a minified release app
+        working-directory: android
+        run: |
+          export JAVA_HOME="$JAVA_HOME_17_X64"
+          ./gradlew --no-daemon :icreadkit:testDebugUnitTest :icreadkit:lintRelease \
+            :icreadkit:assembleRelease :sample:assembleRelease
+
+  android-e2e:
+    name: Android Compose UI tests and Maestro E2E
+    needs: review
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 2
+      - name: Decide whether the screens can change
+        id: scope
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          if [[ "$EVENT_NAME" != 'pull_request' ]] ||
+             git diff --name-only HEAD^1 HEAD | grep -qE '^(android/|maestro/|scripts/(maestro|android-emulator)\.sh$|\.github/workflows/)'; then
+            echo 'run=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'run=false' >> "$GITHUB_OUTPUT"
+            echo 'No Android screen change; skipping the emulator.'
+          fi
+      - name: Start the emulator
+        if: steps.scope.outputs.run == 'true'
+        run: bash scripts/android-emulator.sh
+      - name: Compose UI tests
+        if: steps.scope.outputs.run == 'true'
+        working-directory: android
+        run: |
+          export JAVA_HOME="$JAVA_HOME_17_X64"
+          ./gradlew --no-daemon :sample:connectedDebugAndroidTest
+      - name: Run the shared Maestro flows on Android
+        if: steps.scope.outputs.run == 'true'
+        env:
+          MAESTRO_JUNIT_PATH: build/maestro/report-android.xml
+        run: |
+          export JAVA_HOME="$JAVA_HOME_17_X64"
+          bash scripts/maestro.sh android
