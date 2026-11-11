@@ -20,7 +20,7 @@
 | NFC | Core NFC（NFCTagReaderSession、ISO 7816） | 読み取りモード（NfcAdapter、IsoDep、NFC-B） |
 | サンプルアプリ | SwiftUI、Observation | Kotlin、Jetpack Compose |
 | 端末なしの動作 | シミュレーターで自動的にデモカード | NFC のない端末・エミュレーターで自動的にデモカード |
-| 単体テスト | Swift Testing（34 件） | JUnit（21 件） |
+| 単体テスト | Swift Testing（36 件） | JUnit（22 件） |
 | UI テスト | XCUITest（6 件） | Compose UI テスト（4 件） |
 | E2E | Maestro（共有の 3 シナリオ） | Maestro（同じ 3 シナリオ） |
 | 静的検査 | 公開 API の基準との比較 | Android Lint（最低対応 OS にない API を止める） |
@@ -113,6 +113,34 @@ adapter.enableReaderMode(activity, { tag ->
 | `malformedCertificate` | `MALFORMED_CERTIFICATE` | 読めなかったと伝える |
 | `system(code:)` | ― | Core NFC のコードを記録する |
 
+## サーバーでの検証（`server/`、Go）
+
+端末の上では、証明書が本物の認証局から出たものか、失効していないかは分かりません。そこで、組み込み先がはっきり選んだときだけ、SDK は証明書そのものを返します（iOS は `readCertificateForVerification()`、Android は `readForVerification(tag)`）。組み込み先は、それを自分のサーバーに送って確かめます。`server/` は、その検証の参照実装です。
+
+```mermaid
+sequenceDiagram
+    participant Card as マイナンバーカード
+    participant SDK as ICReadKit（端末）
+    participant App as 組み込み先のアプリ
+    participant Server as 検証サーバー（Go）
+    Card->>SDK: 利用者証明用電子証明書（暗証番号なし）
+    SDK->>App: 要約（発行者・有効期間）と証明書
+    App->>Server: POST /v1/certificates/verify
+    Server->>Server: 認証局までのチェーン、有効期間、鍵の用途、失効
+    Server->>App: accepted と reasons
+```
+
+- Go の標準ライブラリだけで書いています。API の約束は `server/openapi.json`（OpenAPI 3.1）で、応答がその約束どおりかをテストで確かめています（契約テスト）。約束にない項目を返すと、テストが止まります。
+- 証明書は保存もログ出力もしません。応答に含めるのは、可否、理由、発行者、有効期間、失効の確認結果だけです。
+- 失効の確認は、公的個人認証のプラットフォーム事業者を通じて OCSP か CRL で行う必要があります。参照実装には差し替えられる口だけがあり、接続していない間は `revocation: not_checked` と正直に返します。
+- 信頼する認証局は起動時に PEM で渡します（`-roots`）。実際の運用では、J-LIS の利用者証明用の認証局の証明書を使います。
+- **この検証で分かるのは、本物で有効な証明書が提示されたことまでです。** 証明書は公開情報なので、写せば誰でも同じものを出せます。カードを今持っていることを示すには、サーバーが出した使い捨ての値にカードで署名させる必要があり、それには暗証番号が要ります。ICReadKit は暗証番号を使わない方針なので、ここは設計の判断として残しています（`docs/design.md`）。
+
+```bash
+cd server && go test ./...
+go run ./cmd/icreadkit-verifier -roots jlis-user-authentication-ca.pem -addr :8080
+```
+
 ## 問い合わせを減らす診断ツール
 
 組み込み先から来る問い合わせの多くは、SDK ではなくアプリ側の設定の問題です。`scripts/icreadkit_doctor.py` は、組み込み先の `.app`・`.ipa`・`.apk`・`.aar` を読んで、よくある設定ミスを ID・原因・直し方つきで出します。読むのは設定とバイナリのヘッダーだけで、利用者のデータには触れません。
@@ -154,7 +182,7 @@ iOS の SDK には、Apple が SDK に求めるプライバシーマニフェス
 
 CI（`.github/workflows/ci.yml`）は、検査を Ubuntu で先に回し、通ったら iOS（macOS）と Android（Ubuntu）のジョブを並行して回します。E2E は macOS とエミュレーターの時間がかかるため、PR では画面に関わる変更のときだけ動き、main・手動・毎週の定期実行では必ず動きます。
 
-タグ（例：`v0.2.0`）を push すると、両 OS の版がタグと一致することを確かめたうえで、XCFramework の zip、Swift Package Manager 用のチェックサム、README、Android の AAR が GitHub Release に出ます。
+タグ（例：`v0.4.0`）を push すると、両 OS の版がタグと一致することを確かめたうえで、XCFramework の zip、Swift Package Manager 用のチェックサム、README、Android の AAR が GitHub Release に出ます。
 
 ## 開発
 

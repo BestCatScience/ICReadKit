@@ -1,0 +1,65 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "ICReadKit certificate verifier",
+    "version": "0.4.0",
+    "description": "Checks a JPKI user-authentication certificate that ICReadKit read from a My Number card. The certificate is neither stored nor logged."
+  },
+  "paths": {
+    "/v1/certificates/verify": {
+      "post": {
+        "operationId": "verifyCertificate",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/VerifyRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The certificate parsed. accepted says whether it passed; reasons say why not.",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/VerifyResult" } } }
+          },
+          "400": {
+            "description": "The body was not a request, or the bytes were not a DER certificate.",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Problem" } } }
+          },
+          "413": { "description": "The body was larger than 16 KB." }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "VerifyRequest": {
+        "type": "object",
+        "required": ["certificate"],
+        "properties": {
+          "certificate": { "type": "string", "contentEncoding": "base64", "description": "The DER certificate from CardReader." }
+        }
+      },
+      "VerifyResult": {
+        "type": "object",
+        "required": ["accepted", "reasons", "issuer", "notBefore", "notAfter", "revocation"],
+        "properties": {
+          "accepted": { "type": "boolean" },
+          "reasons": {
+            "type": "array",
+            "items": { "type": "string", "enum": ["malformed", "untrusted_chain", "expired", "not_yet_valid", "wrong_key_usage", "revoked"] }
+          },
+          "issuer": { "type": "string" },
+          "notBefore": { "type": "string", "format": "date-time" },
+          "notAfter": { "type": "string", "format": "date-time" },
+          "revocation": { "type": "string", "enum": ["good", "revoked", "not_checked"] }
+        }
+      },
+      "Problem": {
+        "type": "object",
+        "required": ["error"],
+        "properties": { "error": { "type": "string", "enum": ["bad_request", "malformed"] } }
+      }
+    }
+  }
+}

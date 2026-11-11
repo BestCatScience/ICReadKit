@@ -1,6 +1,6 @@
 = ICReadKit 組み込み仕様書
 :toc:
-:revnumber: 0.3.0
+:revnumber: 0.4.0
 :revdate: 2026-11-11
 
 この仕様書は、ICReadKit をアプリに組み込む事業者のエンジニア向けです。
@@ -154,6 +154,10 @@ summary.validity()   // .valid / .expired / .notYetValid
 [cols="1,1,4"]
 |===
 |版 |日付 |内容
+
+|0.4.0
+|2026-11-11
+|証明書をサーバーで検証するための `readCertificateForVerification`（iOS）と `readForVerification`（Android）、参照実装の検証サーバー（Go、OpenAPI）を追加
 
 |0.3.0
 |2026-11-11

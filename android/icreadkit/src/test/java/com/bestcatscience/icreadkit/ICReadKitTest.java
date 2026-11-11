@@ -225,4 +225,13 @@ public class ICReadKitTest {
         assertEquals(Arrays.asList("valid", "expired", "other-card", "connection-lost"),
             Arrays.stream(DemoCard.values()).map(card -> card.id).collect(java.util.stream.Collectors.toList()));
     }
+
+    @Test public void theVerifiableReadReturnsTheExactBytesTheSummaryCameFrom() throws Exception {
+        VerifiableCertificate read = new CardReader().startDemoSession().readDemoForVerification(DemoCard.VALID);
+        assertEquals(CertificateSummary.parse(read.getDer()), read.getSummary());
+        assertEquals(0x30, read.getDer()[0] & 0xFF);
+        // The bytes handed out are a copy; changing them does not change the kit's copy.
+        read.getDer()[0] = 0;
+        assertEquals(0x30, read.getDer()[0] & 0xFF);
+    }
 }

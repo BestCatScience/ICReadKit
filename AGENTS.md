@@ -9,9 +9,14 @@
   CHANGE REFERENCE DATA, RESET RETRY COUNTER or any other command that presents
   or changes a PIN: a wrong PIN counts toward locking a real person's card.
   `CommandAPDU.Instruction.allowed` and its test fix this.
-- Never log, persist, print or return certificate bytes, serial numbers,
-  subjects or anything read from a card. `CertificateSummary` is the only thing
-  that leaves the kit. Demo and test certificates are synthetic.
+- Never log, persist or print certificate bytes, serial numbers, subjects or
+  anything read from a card. Only two things leave the kit: `CertificateSummary`,
+  and the certificate bytes in `VerifiableCertificate` when the host app asks for
+  them to verify on its own server. Wallet responses leave encrypted and are never
+  opened. Demo and test certificates are synthetic.
+- `server/` is the reference verifier in Go (standard library only). Its HTTP
+  contract is `server/openapi.json`; change both together and keep
+  `go test ./...` passing.
 - Never crash the host app. Map every card, transport and Core NFC failure to a
   `CardReadError` case.
 - Do not add third-party dependencies to either kit. The Android kit may

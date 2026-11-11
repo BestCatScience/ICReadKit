@@ -2397,6 +2397,25 @@
             "moduleName": "ICReadKit",
             "throwing": true,
             "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "readCertificateForVerification",
+            "printedName": "readCertificateForVerification()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "VerifiableCertificate",
+                "printedName": "ICReadKit.VerifiableCertificate",
+                "usr": "s:9ICReadKit21VerifiableCertificateV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:9ICReadKit10CardReaderV30readCertificateForVerificationAA010VerifiableF0VyYaAA0C9ReadErrorOYKF",
+            "mangledName": "$s9ICReadKit10CardReaderV30readCertificateForVerificationAA010VerifiableF0VyYaAA0C9ReadErrorOYKF",
+            "moduleName": "ICReadKit",
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
           }
         ],
         "declKind": "Struct",
@@ -2922,6 +2941,171 @@
         "declKind": "Struct",
         "usr": "s:9ICReadKit18CertificateSummaryV",
         "mangledName": "$s9ICReadKit18CertificateSummaryV",
+        "moduleName": "ICReadKit",
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "SendableMetatype",
+            "printedName": "SendableMetatype",
+            "usr": "s:s16SendableMetatypeP",
+            "mangledName": "$ss16SendableMetatypeP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "VerifiableCertificate",
+        "printedName": "VerifiableCertificate",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "der",
+            "printedName": "der",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Data",
+                "printedName": "Foundation.Data",
+                "usr": "s:10Foundation4DataV"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:9ICReadKit21VerifiableCertificateV3der10Foundation4DataVvp",
+            "mangledName": "$s9ICReadKit21VerifiableCertificateV3der10Foundation4DataVvp",
+            "moduleName": "ICReadKit",
+            "declAttributes": [
+              "HasStorage"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Data",
+                    "printedName": "Foundation.Data",
+                    "usr": "s:10Foundation4DataV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:9ICReadKit21VerifiableCertificateV3der10Foundation4DataVvg",
+                "mangledName": "$s9ICReadKit21VerifiableCertificateV3der10Foundation4DataVvg",
+                "moduleName": "ICReadKit",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "summary",
+            "printedName": "summary",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CertificateSummary",
+                "printedName": "ICReadKit.CertificateSummary",
+                "usr": "s:9ICReadKit18CertificateSummaryV"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:9ICReadKit21VerifiableCertificateV7summaryAA0D7SummaryVvp",
+            "mangledName": "$s9ICReadKit21VerifiableCertificateV7summaryAA0D7SummaryVvp",
+            "moduleName": "ICReadKit",
+            "declAttributes": [
+              "HasStorage"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "CertificateSummary",
+                    "printedName": "ICReadKit.CertificateSummary",
+                    "usr": "s:9ICReadKit18CertificateSummaryV"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:9ICReadKit21VerifiableCertificateV7summaryAA0D7SummaryVvg",
+                "mangledName": "$s9ICReadKit21VerifiableCertificateV7summaryAA0D7SummaryVvg",
+                "moduleName": "ICReadKit",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Function",
+            "name": "==",
+            "printedName": "==(_:_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "VerifiableCertificate",
+                "printedName": "ICReadKit.VerifiableCertificate",
+                "usr": "s:9ICReadKit21VerifiableCertificateV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "VerifiableCertificate",
+                "printedName": "ICReadKit.VerifiableCertificate",
+                "usr": "s:9ICReadKit21VerifiableCertificateV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:9ICReadKit21VerifiableCertificateV2eeoiySbAC_ACtFZ",
+            "mangledName": "$s9ICReadKit21VerifiableCertificateV2eeoiySbAC_ACtFZ",
+            "moduleName": "ICReadKit",
+            "static": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Struct",
+        "usr": "s:9ICReadKit21VerifiableCertificateV",
+        "mangledName": "$s9ICReadKit21VerifiableCertificateV",
         "moduleName": "ICReadKit",
         "conformances": [
           {

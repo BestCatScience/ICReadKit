@@ -18,7 +18,7 @@ import java.time.Instant;
  */
 public final class CardReader {
     /** The kit's version, for support logs. Matches the iOS kit. */
-    public static final String VERSION = "0.3.0";
+    public static final String VERSION = "0.4.0";
 
     /** Flags for {@link NfcAdapter#enableReaderMode}: My Number cards are NFC-B, and NDEF probing only slows them. */
     public static final int READER_MODE_FLAGS = NfcAdapter.FLAG_READER_NFC_B | NfcAdapter.FLAG_READER_SKIP_NDEF_CHECK;
@@ -69,18 +69,26 @@ public final class CardReader {
 
         /** Reads a tag from reader mode. Call it off the main thread; it blocks while the card answers. */
         public CertificateSummary read(Tag tag) throws CardReadException {
+            return readForVerification(tag).getSummary();
+        }
+
+        /**
+         * Reads like {@link #read(Tag)} and also returns the certificate itself, for the host app to
+         * send to its server. The server checks the chain and revocation; the device cannot.
+         */
+        public VerifiableCertificate readForVerification(Tag tag) throws CardReadException {
             IsoDep isoDep = IsoDep.get(tag);
             if (isoDep == null) {
                 detected();
-                return fail(new CardReadException(CardReadException.Reason.UNSUPPORTED_CARD));
+                throw fail(new CardReadException(CardReadException.Reason.UNSUPPORTED_CARD));
             }
             try {
                 isoDep.connect();
                 isoDep.setTimeout(TIMEOUT_MILLIS);
-                return read(new IsoDepTransport(isoDep));
+                return readVerifiable(new IsoDepTransport(isoDep));
             } catch (IOException e) {
                 detected();
-                return fail(new CardReadException(CardReadException.Reason.CONNECTION_LOST));
+                throw fail(new CardReadException(CardReadException.Reason.CONNECTION_LOST));
             } finally {
                 try {
                     isoDep.close();
@@ -92,7 +100,12 @@ public final class CardReader {
 
         /** Reads a demo card through the same reading code as a real one. */
         public CertificateSummary readDemo(DemoCard card) throws CardReadException {
-            return read(new DemoTransport(card, Instant.now()));
+            return readDemoForVerification(card).getSummary();
+        }
+
+        /** Reads a demo card and returns its synthetic certificate too. */
+        public VerifiableCertificate readDemoForVerification(DemoCard card) throws CardReadException {
+            return readVerifiable(new DemoTransport(card, Instant.now()));
         }
 
         /** Reports CANCELLED when the person stops waiting. Does nothing after the session finished. */
@@ -102,14 +115,15 @@ public final class CardReader {
             listener.onEvent(CardReadEvent.cancelled(demo, elapsedMillis()));
         }
 
-        CertificateSummary read(CardTransport transport) throws CardReadException {
+        VerifiableCertificate readVerifiable(CardTransport transport) throws CardReadException {
             detected();
             try {
-                CertificateSummary summary = CertificateSummary.parse(new JpkiReader(transport).readAuthenticationCertificate());
+                byte[] certificate = new JpkiReader(transport).readAuthenticationCertificate();
+                CertificateSummary summary = CertificateSummary.parse(certificate);
                 finish(CardReadEvent.read(demo, summary.validity(), elapsedMillis()));
-                return summary;
+                return new VerifiableCertificate(certificate, summary);
             } catch (CardReadException e) {
-                return fail(e);
+                throw fail(e);
             }
         }
 
@@ -118,9 +132,10 @@ public final class CardReader {
             listener.onEvent(CardReadEvent.cardDetected(demo, detections));
         }
 
-        private CertificateSummary fail(CardReadException error) throws CardReadException {
+        /** Reports FINISHED with the failure and hands the error back for the caller to throw. */
+        private CardReadException fail(CardReadException error) {
             finish(CardReadEvent.failed(demo, error.getReason(), elapsedMillis()));
-            throw error;
+            return error;
         }
 
         private synchronized void finish(CardReadEvent event) {

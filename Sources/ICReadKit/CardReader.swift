@@ -10,7 +10,7 @@ import Foundation
 /// before showing a read button and ``readCertificateSummary()`` when the person taps it.
 public struct CardReader: Sendable {
     /// The kit's version, for support logs. It changes with every public API change.
-    public static let version = "0.3.0"
+    public static let version = "0.4.0"
 
     public enum Source: Equatable, Sendable {
         /// A real card through Core NFC.
@@ -69,6 +69,13 @@ public struct CardReader: Sendable {
 
     /// Opens the system NFC sheet, reads the card and returns the certificate's issuer and validity.
     public func readCertificateSummary() async throws(CardReadError) -> CertificateSummary {
+        try await readCertificateForVerification().summary
+    }
+
+    /// Reads the card like ``readCertificateSummary()`` and also returns the certificate itself,
+    /// for the host app to send to its server. The server checks the chain and revocation;
+    /// the device cannot. The kit never logs or stores these bytes.
+    public func readCertificateForVerification() async throws(CardReadError) -> VerifiableCertificate {
         let clock = ContinuousClock()
         let start = clock.now
         let emit = onEvent ?? { _ in }
@@ -77,9 +84,10 @@ public struct CardReader: Sendable {
         }
         emit(.started(demo: source != .nfc))
         do {
-            let summary = try CertificateSummary(certificate: try await readCertificate(emit: emit))
+            let certificate = try await readCertificate(emit: emit)
+            let summary = try CertificateSummary(certificate: certificate)
             emit(.finished(.read(summary.validity()), duration: clock.now - start))
-            return summary
+            return VerifiableCertificate(der: certificate, summary: summary)
         } catch {
             emit(.finished(error == .cancelled ? .cancelled : .failed(error), duration: clock.now - start))
             throw error

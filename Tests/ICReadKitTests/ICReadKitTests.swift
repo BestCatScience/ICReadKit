@@ -356,3 +356,17 @@ final class ScriptedAuthorizer: IdentityAuthorizing, @unchecked Sendable {
         #expect(String(describing: descriptor.intentToStore(element: address)!) == String(describing: PKIdentityIntentToStore.mayStore(days: 30)))
     }
 }
+
+@Suite struct VerificationHandOffTests {
+    @Test func theVerifiableReadReturnsTheExactBytesTheSummaryCameFrom() async throws {
+        let read = try await CardReader(source: .demo(.valid)).readCertificateForVerification()
+        #expect(try CertificateSummary(certificate: read.der) == read.summary)
+        #expect(read.der.first == 0x30)
+    }
+
+    @Test func bothReadsReportTheSameFunnel() async throws {
+        let log = EventLog()
+        _ = try await CardReader(source: .demo(.expired), onEvent: log.record).readCertificateForVerification()
+        #expect(log.steps == [.started(demo: true), .cardDetected(attempt: 1), .finished(.read(.expired), duration: .zero)])
+    }
+}

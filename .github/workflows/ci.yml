@@ -161,3 +161,20 @@ jobs:
         run: |
           export JAVA_HOME="$JAVA_HOME_17_X64"
           bash scripts/maestro.sh android
+
+  server:
+    name: Verification server (Go)
+    needs: review
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: server
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Formatting
+        run: test -z "$(gofmt -l .)"
+      - name: Vet
+        run: go vet ./...
+      - name: Tests, including the OpenAPI contract
+        run: go test ./...
