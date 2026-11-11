@@ -38,7 +38,7 @@ final class ICReadSampleUITests: XCTestCase {
         XCTAssertTrue(message.label.contains("動かさずに"))
     }
 
-    private func read(card: String) -> XCUIApplication {
+    func read(card: String) -> XCUIApplication {
         let app = XCUIApplication()
         app.launch()
         let demo = app.buttons["demo-card-\(card)"]
@@ -46,5 +46,32 @@ final class ICReadSampleUITests: XCTestCase {
         demo.tap()
         app.buttons["read-button"].tap()
         return app
+    }
+}
+
+extension ICReadSampleUITests {
+    func testTheFunnelCountsAnAbandonedRead() {
+        let app = read(card: "connection-lost")
+        let rate = app.staticTexts["funnel-abandon-rate"]
+        // The measurement section sits below the result; a List only builds rows it shows.
+        XCTAssertTrue(app.staticTexts["error-message"].waitForExistence(timeout: 10))
+        for _ in 0..<4 where !rate.exists { app.swipeUp() }
+        XCTAssertTrue(rate.waitForExistence(timeout: 5))
+        XCTAssertTrue(rate.label.contains("100"))
+    }
+}
+
+extension ICReadSampleUITests {
+    func testTheWalletRouteExplainsWhyItIsUnavailableOnTheSimulator() {
+        let app = XCUIApplication()
+        app.launch()
+        let status = app.staticTexts["wallet-status"]
+        let button = app.buttons["wallet-button"]
+        for _ in 0..<6 where !(status.exists && button.exists) { app.swipeUp() }
+        XCTAssertTrue(status.waitForExistence(timeout: 10))
+        let unavailable = NSPredicate(format: "label CONTAINS %@", "使えません")
+        expectation(for: unavailable, evaluatedWith: status)
+        waitForExpectations(timeout: 10)
+        XCTAssertFalse(button.isEnabled)
     }
 }

@@ -10,7 +10,7 @@ import Foundation
 /// before showing a read button and ``readCertificateSummary()`` when the person taps it.
 public struct CardReader: Sendable {
     /// The kit's version, for support logs. It changes with every public API change.
-    public static let version = "0.1.0"
+    public static let version = "0.4.0"
 
     public enum Source: Equatable, Sendable {
         /// A real card through Core NFC.
@@ -47,10 +47,18 @@ public struct CardReader: Sendable {
 
     public let source: Source
     public let messages: Messages
+    private let onEvent: CardReadEventHandler?
 
     public init(source: Source = .nfc, messages: Messages = Messages()) {
+        self.init(source: source, messages: messages, onEvent: nil)
+    }
+
+    /// Adds an event handler for measuring the read funnel. The two-argument
+    /// initializer stays so apps built against 0.1.0 keep working.
+    public init(source: Source = .nfc, messages: Messages = Messages(), onEvent: CardReadEventHandler?) {
         self.source = source
         self.messages = messages
+        self.onEvent = onEvent
     }
 
     /// Whether this app on this device can read a card. A demo source is always available.
@@ -61,19 +69,43 @@ public struct CardReader: Sendable {
 
     /// Opens the system NFC sheet, reads the card and returns the certificate's issuer and validity.
     public func readCertificateSummary() async throws(CardReadError) -> CertificateSummary {
-        let certificate: Data
+        try await readCertificateForVerification().summary
+    }
+
+    /// Reads the card like ``readCertificateSummary()`` and also returns the certificate itself,
+    /// for the host app to send to its server. The server checks the chain and revocation;
+    /// the device cannot. The kit never logs or stores these bytes.
+    public func readCertificateForVerification() async throws(CardReadError) -> VerifiableCertificate {
+        let clock = ContinuousClock()
+        let start = clock.now
+        let emit = onEvent ?? { _ in }
+        if case .nfc = source, case .unavailable(let reason) = availability() {
+            throw .unavailable(reason)
+        }
+        emit(.started(demo: source != .nfc))
+        do {
+            let certificate = try await readCertificate(emit: emit)
+            let summary = try CertificateSummary(certificate: certificate)
+            emit(.finished(.read(summary.validity()), duration: clock.now - start))
+            return VerifiableCertificate(der: certificate, summary: summary)
+        } catch {
+            emit(.finished(error == .cancelled ? .cancelled : .failed(error), duration: clock.now - start))
+            throw error
+        }
+    }
+
+    private func readCertificate(emit: @escaping CardReadEventHandler) async throws(CardReadError) -> Data {
         switch source {
         case .demo(let card):
-            certificate = try await JPKIReader(transport: DemoTransport(card: card, now: Date())).readAuthenticationCertificate()
+            emit(.cardDetected(attempt: 1))
+            return try await JPKIReader(transport: DemoTransport(card: card, now: Date())).readAuthenticationCertificate()
         case .nfc:
-            if case .unavailable(let reason) = availability() { throw .unavailable(reason) }
             #if canImport(CoreNFC)
-            certificate = try await NFCCertificateSession(messages: messages).read()
+            return try await NFCCertificateSession(messages: messages, onCardDetected: { emit(.cardDetected(attempt: $0)) }).read()
             #else
             throw .unavailable(.readingUnsupported)
             #endif
         }
-        return try CertificateSummary(certificate: certificate)
     }
 
     private static var readingSupported: Bool {

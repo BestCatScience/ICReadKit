@@ -8,7 +8,7 @@ let package = Package(
         .library(name: "ICReadKit", targets: ["ICReadKit"])
     ],
     targets: [
-        .target(name: "ICReadKit"),
+        .target(name: "ICReadKit", resources: [.copy("PrivacyInfo.xcprivacy")]),
         .testTarget(name: "ICReadKitTests", dependencies: ["ICReadKit"]),
     ]
 )

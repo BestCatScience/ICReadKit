@@ -5,3 +5,7 @@ build/
 xcuserdata/
 DerivedData/
 Tools/XcodeGen/.build/
+android/.gradle/
+android/build/
+android/*/build/
+android/local.properties

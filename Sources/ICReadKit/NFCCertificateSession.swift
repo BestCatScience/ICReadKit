@@ -9,9 +9,12 @@ final class NFCCertificateSession: NSObject, NFCTagReaderSessionDelegate, @unche
     private let messages: CardReader.Messages
     private var session: NFCTagReaderSession?
     private var continuation: CheckedContinuation<Result<Data, CardReadError>, Never>?
+    private let onCardDetected: @Sendable (Int) -> Void
+    private var detections = 0
 
-    init(messages: CardReader.Messages) {
+    init(messages: CardReader.Messages, onCardDetected: @escaping @Sendable (Int) -> Void = { _ in }) {
         self.messages = messages
+        self.onCardDetected = onCardDetected
     }
 
     func read() async throws(CardReadError) -> Data {
@@ -38,6 +41,8 @@ final class NFCCertificateSession: NSObject, NFCTagReaderSessionDelegate, @unche
     }
 
     func tagReaderSession(_ session: NFCTagReaderSession, didDetect tags: [NFCTag]) {
+        detections += 1
+        onCardDetected(detections)
         guard tags.count == 1, let tag = tags.first else {
             session.alertMessage = messages.multipleCards
             queue.asyncAfter(deadline: .now() + 0.5) { self.session?.restartPolling() }

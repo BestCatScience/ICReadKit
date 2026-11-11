@@ -86,3 +86,14 @@ extension CertificateSummary {
         return (units + organizations).joined(separator: " / ")
     }
 }
+
+/// The certificate as read from the card, for verification on the host app's server.
+///
+/// The authentication certificate carries no name, address or birth date, but its serial
+/// number identifies the card. Send it only to your own server over TLS, and do not log it.
+public struct VerifiableCertificate: Equatable, Sendable {
+    /// The DER bytes, to be base64-encoded into the server's `certificate` field.
+    public let der: Data
+    /// The same issuer and validity ``CardReader/readCertificateSummary()`` returns.
+    public let summary: CertificateSummary
+}
